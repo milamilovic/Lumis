@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
 
         UpdateFacing();
         UpdateAnimation();
+
+        // y-sort when higher on screen is drawn behind
+        sr.sortingOrder = Mathf.RoundToInt(-transform.position.y * 10);
     }
 
     void FixedUpdate()
