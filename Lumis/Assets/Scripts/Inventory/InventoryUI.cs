@@ -42,4 +42,9 @@ public class InventoryUI : MonoBehaviour
         for (int i = 0; i < slots.Length; i++)
             slots[i].UpdateSlot(inventory.items[i], i);
     }
+
+    public void SwapItems(int from, int to)
+    {
+        inventory.SwapItems(from, to);
+    }
 }
