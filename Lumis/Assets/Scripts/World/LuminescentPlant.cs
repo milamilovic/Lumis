@@ -12,6 +12,9 @@ public class LuminescentPlant : MonoBehaviour
     private Color baseColor;
     private float time;
 
+    [Header("Radiation")]
+    public float radiationReduction = 0.3f; //at the center
+
     void Start()
     {
         light2D = GetComponentInChildren<Light2D>();
@@ -31,5 +34,11 @@ public class LuminescentPlant : MonoBehaviour
         Color newColor = baseColor * brightness;
         newColor.a = sr.color.a;
         sr.color = newColor;
+    }
+
+    public float GetLightRadius()
+    {
+        if (light2D != null) return light2D.pointLightOuterRadius;
+        return 2f; // fallback
     }
 }
