@@ -8,6 +8,7 @@ public class InventorySlot : MonoBehaviour,
 {
     public Image itemIcon;
     public TextMeshProUGUI quantityLabel;
+    public Image seedBagIcon;
 
     [HideInInspector] public int slotIndex;
     [HideInInspector] public InventoryItem item;
@@ -19,8 +20,8 @@ public class InventorySlot : MonoBehaviour,
 
     void Start()
     {
-        inventoryUI = GetComponentInParent<InventoryUI>();
-        canvas = GetComponentInParent<Canvas>();
+        inventoryUI = FindFirstObjectByType<InventoryUI>();
+        canvas = FindFirstObjectByType<Canvas>();
     }
 
     public void UpdateSlot(InventoryItem newItem, int index)
@@ -30,15 +31,21 @@ public class InventorySlot : MonoBehaviour,
 
         if (item == null)
         {
-            itemIcon.sprite = null;
-            itemIcon.enabled = false;
-            quantityLabel.text = "";
+            if (itemIcon != null) { itemIcon.sprite = null; itemIcon.enabled = false; }
+            if (seedBagIcon != null) seedBagIcon.enabled = false;
+            if (quantityLabel != null) quantityLabel.text = "";
+        }
+        else if (item.id.Contains("seed"))
+        {
+            if (itemIcon != null) { itemIcon.sprite = item.icon; itemIcon.enabled = item.icon != null; }
+            if (seedBagIcon != null) seedBagIcon.enabled = true;
+            if (quantityLabel != null) quantityLabel.text = item.quantity > 1 ? item.quantity.ToString() : "";
         }
         else
         {
-            itemIcon.sprite = item.icon;
-            itemIcon.enabled = true;
-            quantityLabel.text = item.quantity > 1 ? item.quantity.ToString() : "";
+            if (itemIcon != null) { itemIcon.sprite = item.icon; itemIcon.enabled = item.icon != null; }
+            if (seedBagIcon != null) seedBagIcon.enabled = false;
+            if (quantityLabel != null) quantityLabel.text = item.quantity > 1 ? item.quantity.ToString() : "";
         }
     }
 
@@ -53,7 +60,9 @@ public class InventorySlot : MonoBehaviour,
         dragIcon.transform.SetAsLastSibling();
 
         var img = dragIcon.AddComponent<Image>();
-        img.sprite = item.icon;
+        img.sprite = (item.id.Contains("seed") && seedBagIcon.sprite != null)
+                            ? seedBagIcon.sprite
+                            : item.icon;
         img.raycastTarget = false;
 
         var rt = dragIcon.GetComponent<RectTransform>();

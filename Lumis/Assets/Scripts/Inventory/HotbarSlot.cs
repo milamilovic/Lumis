@@ -5,6 +5,7 @@ using TMPro;
 public class HotbarSlot : MonoBehaviour
 {
     public Image itemIcon;
+    public Image seedBagIcon;
     public TextMeshProUGUI quantityLabel;
     public Image selectionHighlight;
 
@@ -14,15 +15,21 @@ public class HotbarSlot : MonoBehaviour
     {
         if (item == null)
         {
-            itemIcon.sprite = null;
-            itemIcon.enabled = false;
-            quantityLabel.text = "";
+            if (itemIcon != null) { itemIcon.sprite = null; itemIcon.enabled = false; }
+            if (seedBagIcon != null) seedBagIcon.enabled = false;
+            if (quantityLabel != null) quantityLabel.text = "";
+        }
+        else if (item.id.Contains("seed"))
+        {
+            if (itemIcon != null) { itemIcon.sprite = item.icon; itemIcon.enabled = item.icon != null; }
+            if (seedBagIcon != null) seedBagIcon.enabled = true;
+            if (quantityLabel != null) quantityLabel.text = item.quantity > 1 ? item.quantity.ToString() : "";
         }
         else
         {
-            itemIcon.sprite = item.icon;
-            itemIcon.enabled = true;
-            quantityLabel.text = item.quantity > 1 ? item.quantity.ToString() : "";
+            if (itemIcon != null) { itemIcon.sprite = item.icon; itemIcon.enabled = item.icon != null; }
+            if (seedBagIcon != null) seedBagIcon.enabled = false;
+            if (quantityLabel != null) quantityLabel.text = item.quantity > 1 ? item.quantity.ToString() : "";
         }
     }
 
