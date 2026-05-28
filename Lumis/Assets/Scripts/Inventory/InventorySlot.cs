@@ -26,6 +26,9 @@ public class InventorySlot : MonoBehaviour,
 
     public void UpdateSlot(InventoryItem newItem, int index)
     {
+        if (newItem != null && string.IsNullOrEmpty(newItem.id))
+            newItem = null;
+
         item = newItem;
         slotIndex = index;
 
@@ -70,6 +73,7 @@ public class InventorySlot : MonoBehaviour,
             bagImg.sprite = seedBagIcon.sprite;
             bagImg.raycastTarget = false;
             bagObj.GetComponent<RectTransform>().sizeDelta = new Vector2(48, 48);
+            seedBagIcon.color = new Color(1, 1, 1, 0.4f);
 
             if (item.icon != null)
             {
@@ -80,6 +84,8 @@ public class InventorySlot : MonoBehaviour,
                 seedImg.raycastTarget = false;
                 seedObj.GetComponent<RectTransform>().sizeDelta = new Vector2(48, 48);
             }
+
+            itemIcon.color = new Color(1, 1, 1, 0.4f);
         }
         else
         {
@@ -87,8 +93,6 @@ public class InventorySlot : MonoBehaviour,
             img.sprite = item.icon;
             img.raycastTarget = false;
         }
-
-        itemIcon.color = new Color(1, 1, 1, 0.4f);
     }
 
     public void OnDrag(PointerEventData e)

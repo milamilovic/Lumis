@@ -13,6 +13,9 @@ public class HotbarSlot : MonoBehaviour
 
     public void UpdateSlot(InventoryItem item)
     {
+        if (item != null && string.IsNullOrEmpty(item.id))
+            item = null;
+
         if (item == null)
         {
             if (itemIcon != null) { itemIcon.sprite = null; itemIcon.enabled = false; }
