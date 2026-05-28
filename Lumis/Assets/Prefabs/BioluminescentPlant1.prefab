@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6329968329305232107}
   - component: {fileID: 5764939324697103063}
   m_Layer: 0
-  m_Name: BioluminescentPlant
+  m_Name: BioluminescentPlant1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayerID: -789518417
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 5960713649519986423, guid: 3c287ca741eef5c49978d620b28cacf6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3c287ca741eef5c49978d620b28cacf6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -156,8 +156,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.000000022971655, y: -0.19270024}
-  m_Size: {x: 0.7291668, y: 0.475026}
+  m_Offset: {x: 0.013659571, y: -0.22516641}
+  m_Size: {x: 0.63869417, y: 0.34630743}
   m_Direction: 1
 --- !u!114 &6329968329305232107
 MonoBehaviour:
@@ -185,9 +185,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a6330f8f2e3cf4f9774e8001b02e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LuminescentPlant
-  minBrightness: 0.8
-  maxBrightness: 1.6
-  pulseSpeed: 1.3
+  definition: {fileID: 11400000, guid: 95b216d1fbccefe4ca9840b1b93c8982, type: 2}
+  transparencyAmount: 0.5
+  fadeSpeed: 5
 --- !u!1 &5326560443709710971
 GameObject:
   m_ObjectHideFlags: 0

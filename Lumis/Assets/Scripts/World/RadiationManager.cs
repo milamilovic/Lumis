@@ -41,7 +41,7 @@ public class RadiationManager : MonoBehaviour
 
             float falloff = 1f - (dist / radius);
             falloff = Mathf.Pow(falloff, 2f);
-            reduction += plant.radiationReduction * falloff;
+            reduction += plant.GetRadiationReduction() * falloff;
         }
 
         return Mathf.Clamp01(baseRadiation - reduction);

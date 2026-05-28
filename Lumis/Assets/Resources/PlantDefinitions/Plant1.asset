@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3509fd16d758c3e46b95f85e2f8f3ca6, type: 3}
+  m_Name: Plant1
+  m_EditorClassIdentifier: Assembly-CSharp::PlantDefinition
+  plantName: Luminescent Plant
+  stages:
+  - sprite: {fileID: 21300000, guid: e30f57f63f29d2d4b94a373c2864c6f2, type: 3}
+    lightRadius: 3
+    lightIntensity: 0.77
+    lightColor: {r: 0.93333334, g: 0.49803922, b: 0.8509804, a: 1}
+    minBrightness: 0.8
+    maxBrightness: 1.6
+    pulseSpeed: 1.3
+    radiationReduction: 0.2
+    colliderSize: {x: 0.2369212, y: 0.2000715}
+    colliderOffset: {x: -0.009999997, y: -0.2982835}
+  - sprite: {fileID: 21300000, guid: bdeb871f03f868e4f97abf66fbc7cc39, type: 3}
+    lightRadius: 6
+    lightIntensity: 0.77
+    lightColor: {r: 0.93333334, g: 0.49803922, b: 0.8509804, a: 1}
+    minBrightness: 0.8
+    maxBrightness: 1.6
+    pulseSpeed: 1.3
+    radiationReduction: 0.2
+    colliderSize: {x: 0.4324225, y: 0.2964963}
+    colliderOffset: {x: -0.01869691, y: -0.16}
+  - sprite: {fileID: 21300000, guid: 3c287ca741eef5c49978d620b28cacf6, type: 3}
+    lightRadius: 10
+    lightIntensity: 0.77
+    lightColor: {r: 0.93333334, g: 0.49803922, b: 0.8509804, a: 1}
+    minBrightness: 0.8
+    maxBrightness: 1.6
+    pulseSpeed: 1.3
+    radiationReduction: 0.2
+    colliderSize: {x: 0.6386942, y: 0.3463074}
+    colliderOffset: {x: 0.01365957, y: -0.2251664}
+  daysPerStage: 1
+  seedDropChancePerDay: 1
+  seedLifetimSeconds: 30
+  seedSprite: {fileID: 21300000, guid: b956fa91654eba6408355b465cabd5f6, type: 3}
+  seedItemId: plant1-seed

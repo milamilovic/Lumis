@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2fe968ce546b8664ba0940f3280c096d
+guid: 6b4079897d859d2409f0cceb1ff34c74
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7180352456049927262
-    second: plant4-small_0
+      213: -6485454691427292199
+    second: plant2-seed_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: plant4-small_0
+      name: plant2-seed_0
       rect:
         serializedVersion: 2
-        x: 71
+        x: 23
         y: 23
-        width: 44
-        height: 92
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e54a5f0048cb5a360800000000000000
-      internalID: 7180352456049927262
+      spriteID: 9dbe59ec1590ff5a0800000000000000
+      internalID: -6485454691427292199
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      plant4-small_0: 7180352456049927262
+      plant2-seed_0: -6485454691427292199
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

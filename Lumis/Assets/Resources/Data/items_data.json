@@ -3,5 +3,30 @@
     "name": "Galaxy",
     "description": "A small galaxy.",
     "icon": "prop4.png"
+  },
+  "plant1-seed": {
+    "name": "Plant Seed for plant type 1",
+    "description": "A glowing seed. Plant it somewhere safe.",
+    "icon": ""
+  },
+  "plant2-seed": {
+    "name": "Plant Seed for plant type 2",
+    "description": "A glowing seed. Plant it somewhere safe.",
+    "icon": ""
+  },
+  "plant3-seed": {
+    "name": "Plant Seed for plant type 3",
+    "description": "A glowing seed. Plant it somewhere safe.",
+    "icon": ""
+  },
+  "plant4-seed": {
+    "name": "Plant Seed for plant type 4",
+    "description": "A glowing seed. Plant it somewhere safe.",
+    "icon": ""
+  },
+  "plant5-seed": {
+    "name": "Plant Seed for plant type 5",
+    "description": "A glowing seed. Plant it somewhere safe.",
+    "icon": ""
   }
 }
