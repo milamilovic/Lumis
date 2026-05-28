@@ -8,6 +8,7 @@ public class InventorySlot : MonoBehaviour,
 {
     public Image itemIcon;
     public TextMeshProUGUI quantityLabel;
+    public Image seedBagIcon;
 
     [HideInInspector] public int slotIndex;
     [HideInInspector] public InventoryItem item;
@@ -19,26 +20,35 @@ public class InventorySlot : MonoBehaviour,
 
     void Start()
     {
-        inventoryUI = GetComponentInParent<InventoryUI>();
-        canvas = GetComponentInParent<Canvas>();
+        inventoryUI = FindFirstObjectByType<InventoryUI>();
+        canvas = FindFirstObjectByType<Canvas>();
     }
 
     public void UpdateSlot(InventoryItem newItem, int index)
     {
+        if (newItem != null && string.IsNullOrEmpty(newItem.id))
+            newItem = null;
+
         item = newItem;
         slotIndex = index;
 
         if (item == null)
         {
-            itemIcon.sprite = null;
-            itemIcon.enabled = false;
-            quantityLabel.text = "";
+            if (itemIcon != null) { itemIcon.sprite = null; itemIcon.enabled = false; }
+            if (seedBagIcon != null) seedBagIcon.enabled = false;
+            if (quantityLabel != null) quantityLabel.text = "";
+        }
+        else if (item.id.Contains("seed"))
+        {
+            if (itemIcon != null) { itemIcon.sprite = item.icon; itemIcon.enabled = item.icon != null; }
+            if (seedBagIcon != null) seedBagIcon.enabled = true;
+            if (quantityLabel != null) quantityLabel.text = item.quantity > 1 ? item.quantity.ToString() : "";
         }
         else
         {
-            itemIcon.sprite = item.icon;
-            itemIcon.enabled = true;
-            quantityLabel.text = item.quantity > 1 ? item.quantity.ToString() : "";
+            if (itemIcon != null) { itemIcon.sprite = item.icon; itemIcon.enabled = item.icon != null; }
+            if (seedBagIcon != null) seedBagIcon.enabled = false;
+            if (quantityLabel != null) quantityLabel.text = item.quantity > 1 ? item.quantity.ToString() : "";
         }
     }
 
@@ -52,14 +62,37 @@ public class InventorySlot : MonoBehaviour,
         dragIcon.transform.SetParent(canvas.transform, false);
         dragIcon.transform.SetAsLastSibling();
 
-        var img = dragIcon.AddComponent<Image>();
-        img.sprite = item.icon;
-        img.raycastTarget = false;
-
-        var rt = dragIcon.GetComponent<RectTransform>();
+        var rt = dragIcon.AddComponent<RectTransform>();
         rt.sizeDelta = new Vector2(48, 48);
 
-        itemIcon.color = new Color(1, 1, 1, 0.4f); // dim the source slot
+        if (item.id.Contains("seed") && seedBagIcon.sprite != null)
+        {
+            var bagObj = new GameObject("Bag");
+            bagObj.transform.SetParent(dragIcon.transform, false);
+            var bagImg = bagObj.AddComponent<Image>();
+            bagImg.sprite = seedBagIcon.sprite;
+            bagImg.raycastTarget = false;
+            bagObj.GetComponent<RectTransform>().sizeDelta = new Vector2(48, 48);
+            seedBagIcon.color = new Color(1, 1, 1, 0.4f);
+
+            if (item.icon != null)
+            {
+                var seedObj = new GameObject("Seed");
+                seedObj.transform.SetParent(dragIcon.transform, false);
+                var seedImg = seedObj.AddComponent<Image>();
+                seedImg.sprite = item.icon;
+                seedImg.raycastTarget = false;
+                seedObj.GetComponent<RectTransform>().sizeDelta = new Vector2(48, 48);
+            }
+
+            itemIcon.color = new Color(1, 1, 1, 0.4f);
+        }
+        else
+        {
+            var img = dragIcon.AddComponent<Image>();
+            img.sprite = item.icon;
+            img.raycastTarget = false;
+        }
     }
 
     public void OnDrag(PointerEventData e)
@@ -69,7 +102,7 @@ public class InventorySlot : MonoBehaviour,
             canvas.GetComponent<RectTransform>(),
             e.position, canvas.worldCamera,
             out Vector2 localPoint);
-        dragIcon.GetComponent<RectTransform>().localPosition = localPoint;
+        ((RectTransform)dragIcon.transform).localPosition = localPoint;
     }
 
     public void OnDrop(PointerEventData e)

@@ -33,6 +33,9 @@ public class ItemPickup : MonoBehaviour
         var newItem = item.Clone();
         newItem.quantity = amount;
         inv.AddItem(newItem);
+
+        AudioManager.Instance?.PlayPickup();
+
         Destroy(gameObject);
     }
 }

@@ -6,13 +6,18 @@ public class Inventory : MonoBehaviour
     public InventoryItem[] items;
     public event System.Action OnInventoryChanged;
 
-    void Awake() => items = new InventoryItem[maxSlots];
+    void Awake()
+    {
+        items = new InventoryItem[maxSlots];
+    }
 
     public void AddItem(InventoryItem newItem)
     {
+        if (newItem == null || string.IsNullOrEmpty(newItem.id)) return;
+
         // Try to stack first
         for (int i = 0; i < items.Length; i++)
-            if (items[i] != null && items[i].id == newItem.id)
+            if (items[i] != null && !string.IsNullOrEmpty(items[i].id) && items[i].id == newItem.id)
             {
                 items[i].quantity += newItem.quantity;
                 OnInventoryChanged?.Invoke();
@@ -21,7 +26,7 @@ public class Inventory : MonoBehaviour
 
         // Find empty slot
         for (int i = 0; i < items.Length; i++)
-            if (items[i] == null)
+            if (items[i] == null || string.IsNullOrEmpty(items[i].id))
             {
                 items[i] = newItem;
                 OnInventoryChanged?.Invoke();

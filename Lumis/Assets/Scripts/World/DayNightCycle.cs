@@ -16,6 +16,12 @@ public class DayNightCycle : MonoBehaviour
     private float currentTime = 0f;
     private float cycleDuration;
 
+    public static DayNightCycle Instance;
+    void Awake() => Instance = this;
+
+    public int currentDay { get; private set; } = 0;
+    public event System.Action OnNewDay;
+
     void Start()
     {
         globalLight = GetComponent<Light2D>();
@@ -26,8 +32,12 @@ public class DayNightCycle : MonoBehaviour
     void Update()
     {
         currentTime += Time.deltaTime;
-        if (currentTime >= cycleDuration) currentTime = 0f;
-
+        if (currentTime >= cycleDuration)
+        {
+            currentTime = 0f;
+            currentDay++;
+            OnNewDay?.Invoke();
+        }
         globalLight.color = GetCurrentColor();
     }
 
