@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("Clips")]
     public AudioClip backgroundMusic;
+    public AudioClip pickupSFX;
 
     [Header("Radiation Geiger")]
     public AudioSource[] geigerSources;
@@ -61,14 +62,16 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(clip, sfxVolume);
     }
 
+    public void PlayPickup() => PlaySFX(pickupSFX);
+
     public void SetRadiationVolume(float radiation)
     {
         lastRadiation = radiation;
 
         float[] targets = {
-            Mathf.InverseLerp(0.5f, 0f,  radiation),      // low:    loud at 0, silent at 0.5
-            1f - Mathf.Abs(radiation - 0.5f) / 0.5f,      // medium: peaks at 0.5
-            Mathf.InverseLerp(0.5f, 1f,  radiation)       // high:   silent at 0.5, loud at 1
+            Mathf.InverseLerp(0.5f, 0.3f, radiation),   // low
+            Mathf.InverseLerp(0.7f, 0.5f, radiation),   // medium
+            Mathf.InverseLerp(0.9f, 0.7f, radiation)    // high
         };
 
         float masterSFX = sfxVolume;

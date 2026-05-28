@@ -10,7 +10,7 @@ public class RadiationOverlay : MonoBehaviour
     private float timer;
     private float currentRadiation;
 
-    private const int TEX_SIZE = 256;
+    private const int TEX_SIZE = 512;
 
     void Start()
     {
@@ -39,7 +39,7 @@ public class RadiationOverlay : MonoBehaviour
         }
 
         // fade overlay based on radiation
-        float targetAlpha = Mathf.InverseLerp(0.4f, 1f, currentRadiation) * 0.40f;
+        float targetAlpha = Mathf.InverseLerp(0.4f, 1f, currentRadiation) * 0.30f;
         var c = staticOverlay.color;
         c.a = Mathf.Lerp(c.a, targetAlpha, Time.deltaTime * 3f);
         staticOverlay.color = c;
