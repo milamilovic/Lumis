@@ -29,6 +29,11 @@ public class CraftingUI : MonoBehaviour
     void Start()
     {
         inventory = FindFirstObjectByType<Inventory>();
+        if (inventory == null)
+        {
+            Debug.LogError("CraftingUI: No Inventory found in scene. Make sure the Player with Inventory component exists.");
+            return;
+        }
         inventory.OnInventoryChanged += RefreshCraftButton;
 
         foreach (var def in allRobots)

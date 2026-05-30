@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RobotDefinition
   robotName: DiggerRobot
   type: 0
-  idleSprite: {fileID: 0}
-  animatorController: {fileID: 0}
+  idleSprite: {fileID: 4557599673789392026, guid: 1c6d7e2e6db76b74993e1f6d96b60522, type: 3}
+  animatorController: {fileID: 9100000, guid: f5600110a279dd0409c59606916a7de0, type: 2}
   secondsPerTile: 1
   moveSpeed: 2
   recipe:
