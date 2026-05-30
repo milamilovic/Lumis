@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309111cce4c2f744d9e69f56e93eb734, type: 3}
+  m_Name: DiggerRobot
+  m_EditorClassIdentifier: Assembly-CSharp::RobotDefinition
+  robotName: DiggerRobot
+  type: 0
+  idleSprite: {fileID: 0}
+  animatorController: {fileID: 0}
+  secondsPerTile: 1
+  moveSpeed: 2
+  recipe:
+  - partItemId: digger_drill
+    amount: 1
+  - partItemId: digger_body
+    amount: 1
+  - partItemId: power_cell
+    amount: 1
+  - partItemId: digger_leg
+    amount: 2

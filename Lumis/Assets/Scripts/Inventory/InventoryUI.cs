@@ -10,6 +10,9 @@ public class InventoryUI : MonoBehaviour
     private InventorySlot[] slots;
     private bool isOpen = false;
 
+    public GameObject inventoryGrid;
+    public GameObject craftingPanel;
+
     void Start()
     {
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
@@ -46,5 +49,17 @@ public class InventoryUI : MonoBehaviour
     public void SwapItems(int from, int to)
     {
         inventory.SwapItems(from, to);
+    }
+
+    public void ShowInventoryTab()
+    {
+        inventoryGrid.SetActive(true);
+        craftingPanel.SetActive(false);
+    }
+
+    public void ShowCraftingTab()
+    {
+        inventoryGrid.SetActive(false);
+        craftingPanel.SetActive(true);
     }
 }

@@ -28,5 +28,33 @@
     "name": "Plant Seed for plant type 5",
     "description": "A glowing seed. Plant it somewhere safe.",
     "icon": ""
+  },
+  "power_cell": {
+    "name": "Power Cell",
+    "description": "Energy source for robots."
+  },
+  "digger_drill": {
+    "name": "Digger Drill",
+    "description": "Heavy drilling head."
+  },
+  "digger_body": {
+    "name": "Digging robot body",
+    "description": "A body for the digging robot."
+  },
+  "digger_leg": {
+    "name": "Digging robot legs",
+    "description": "A way for the digging robot to move."
+  },
+  "planter_arm": {
+    "name": "Planting robot arm",
+    "description": "A precise mechanical arm."
+  },
+  "planter_leg": {
+    "name": "Planting robot leg",
+    "description": "A precise mechanical leg."
+  },
+  "planter_body": {
+    "name": "Planting robot body",
+    "description": "A body for the planting robot."
   }
 }
