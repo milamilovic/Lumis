@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject pausePanel;
 
     [Header("Sliders")]
+    public Slider masterSlider;
     public Slider musicSlider;
     public Slider sfxSlider;
     public Slider radiationSlider;
@@ -20,11 +21,13 @@ public class PauseMenu : MonoBehaviour
 
         if (AudioManager.Instance != null)
         {
+            masterSlider.value = AudioManager.Instance.GetMasterVolume();
             musicSlider.value = AudioManager.Instance.GetMusicVolume();
             sfxSlider.value = AudioManager.Instance.GetSFXVolume();
             radiationSlider.value = AudioManager.Instance.GetRadiationVolume();
         }
 
+        masterSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetMasterVolume(v));
         musicSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetMusicVolume(v));
         sfxSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetSFXVolume(v));
         radiationSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetRadiationVolume_Slider(v));
