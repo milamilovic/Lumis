@@ -23,6 +23,25 @@ public class Robot : MonoBehaviour
     private Tilemap groundTilemap;
     private Tilemap dugTilemap;
 
+    void Update()
+    {
+        if (rb == null) return;
+
+        if (state == RobotState.Idle)
+        {
+            rb.linearVelocity = Vector2.zero;
+            if (anim != null && anim.enabled)
+            {
+                anim.enabled = false;
+            }
+        }
+        else
+        {
+            if (anim != null && !anim.enabled)
+                anim.enabled = true;
+        }
+    }
+
     public void Initialize(RobotDefinition def)
     {
         definition = def;
@@ -38,6 +57,7 @@ public class Robot : MonoBehaviour
 
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
+        rb.linearDamping = 20f;
     }
 
     public void AssignTiles(List<Vector3Int> tiles)
@@ -53,6 +73,8 @@ public class Robot : MonoBehaviour
 
     IEnumerator ExecuteTasks()
     {
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
         while (currentTileIndex < assignedTiles.Count)
         {
             var tileCell = assignedTiles[currentTileIndex];
@@ -72,6 +94,7 @@ public class Robot : MonoBehaviour
 
         state = RobotState.Idle;
         assignedTiles.Clear();
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
     IEnumerator WalkTo(Vector3 target)

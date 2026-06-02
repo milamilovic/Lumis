@@ -24,7 +24,7 @@ public class CraftingUI : MonoBehaviour
     public GameObject robotPrefab;
 
     private Inventory inventory;
-    private RobotDefinition selectedRecipe;
+    public RobotDefinition selectedRecipe;
 
     void Start()
     {
@@ -46,7 +46,7 @@ public class CraftingUI : MonoBehaviour
         detailPanel.SetActive(false);
     }
 
-    void SelectRecipe(RobotDefinition def)
+    public void SelectRecipe(RobotDefinition def)
     {
         selectedRecipe = def;
         detailPanel.SetActive(true);

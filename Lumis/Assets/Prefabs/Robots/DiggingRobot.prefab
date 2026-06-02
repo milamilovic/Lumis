@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5696065323809635533}
   - component: {fileID: 2017016191494732504}
   - component: {fileID: 867081804172298902}
+  - component: {fileID: 2761621360003035288}
   m_Layer: 0
   m_Name: DiggingRobot
   m_TagString: Untagged
@@ -80,8 +81,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: -1731154161
-  m_SortingLayer: 2
+  m_SortingLayerID: -789518417
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2388877462577935173, guid: e606ade90f588694ab4dea9029c9caea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -129,8 +130,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_LinearDamping: 20
+  m_AngularDamping: 10
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -192,6 +193,18 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.000000016986025, y: -0.14248912}
-  m_Size: {x: 0.6666669, y: 0.53694004}
+  m_Offset: {x: -0.000000012062245, y: -0.10118546}
+  m_Size: {x: 0.666667, y: 0.6195491}
   m_Direction: 1
+--- !u!114 &2761621360003035288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7350383104866210846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b952b23921bd54e87491df0973d54e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RobotYSort

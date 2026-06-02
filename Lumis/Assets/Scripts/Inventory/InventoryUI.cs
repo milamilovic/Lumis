@@ -36,7 +36,13 @@ public class InventoryUI : MonoBehaviour
         {
             isOpen = !isOpen;
             inventoryPanel.SetActive(isOpen);
-            if (isOpen) UpdateUI();
+            if (isOpen)
+            {
+                UpdateUI();
+                var craftingUI = GetComponentInChildren<CraftingUI>(true);
+                if (craftingUI != null && craftingUI.selectedRecipe != null)
+                    craftingUI.SelectRecipe(craftingUI.selectedRecipe);
+            }
         }
     }
 
