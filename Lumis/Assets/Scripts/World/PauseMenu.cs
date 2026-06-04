@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -58,7 +59,13 @@ public class PauseMenu : MonoBehaviour
 
     public void Restart()
     {
+        StartCoroutine(RestartCoroutine());
+    }
+
+    IEnumerator RestartCoroutine()
+    {
         Time.timeScale = 1f;
+        yield return null;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
