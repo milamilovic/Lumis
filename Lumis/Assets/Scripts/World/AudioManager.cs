@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     [Header("Clips")]
     public AudioClip backgroundMusic;
     public AudioClip pickupSFX;
+    public AudioClip mainMenuMusic;
 
     [Header("Radiation Geiger")]
     public AudioSource geigerLow;

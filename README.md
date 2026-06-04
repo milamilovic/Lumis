@@ -13,6 +13,16 @@ Licence: CC-BY 3.0
 
 
 
+Underwater theme
+
+URL: https://opengameart.org/content/underwater-theme
+
+Author: CleytonKauffman
+
+License: Creative Commons 0
+
+
+
 8\_Walking on the sidewalk.wav
 Author: 16H\_Panska\_Skerl\_Jan
 URL: https://freesound.org/s/499070/
@@ -50,13 +60,11 @@ License: Creative Commons 0
 
 
 
+UI Pop Up
 
+Author: EminYILDIRIM
 
-UI Pop Up 
-
-Author: EminYILDIRIM 
-
-URL: https://freesound.org/s/540568/ 
+URL: https://freesound.org/s/540568/
 
 License: Attribution 4.0
 
