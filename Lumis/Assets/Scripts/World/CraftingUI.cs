@@ -109,5 +109,7 @@ public class CraftingUI : MonoBehaviour
 
         Debug.Log($"Crafted: {selectedRecipe.robotName}");
         RefreshCraftButton();
+
+        WinScreen.Instance?.NotifyRobotCrafted();
     }
 }
