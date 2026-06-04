@@ -25,12 +25,17 @@ public class AudioManager : MonoBehaviour
     [Header("Radiation smoothing")]
     public float radiationFadeSpeed = 2f;
 
+    [Header("Music fade")]
+    public float fadeOutDuration = 1.5f;
+    public float fadeInDuration = 1.5f;
+
     float masterVolume = 1f;
     float musicVolume = 1f;
     float sfxVolume = 1f;
     float radiationVolume = 0.5f;
-
     private float lastRadiation = 0f;
+    private bool isFading = false;
+    private Coroutine fadeMusicCoroutine;
 
     void Awake()
     {
@@ -42,7 +47,11 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         LoadVolumeSettings();
-        StartCoroutine(PlayMusicWithDelay(backgroundMusic, 2f));
+        string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (currentScene == "MainMenu")
+            PlayMusic(mainMenuMusic);
+        else
+            PlayMusic(backgroundMusic);
         InitGeigerSource(geigerLow, geigerLowClip);
         InitGeigerSource(geigerMedium, geigerMediumClip);
         InitGeigerSource(geigerHigh, geigerHighClip);
@@ -57,24 +66,51 @@ public class AudioManager : MonoBehaviour
         source.Play();
     }
 
-    IEnumerator PlayMusicWithDelay(AudioClip clip, float delay)
-    {
-        if (clip == null) yield break;
-        musicSource.clip = clip;
-        musicSource.loop = true;
-        musicSource.Play();
-        musicSource.time = 2f;
-        ApplyVolumes();
-    }
-
     public void PlayMusic(AudioClip clip)
     {
         if (clip == null) return;
-        StopCoroutine(nameof(PlayMusicWithDelay));
-        musicSource.clip = clip;
+        if (fadeMusicCoroutine != null)
+            StopCoroutine(fadeMusicCoroutine);
+        fadeMusicCoroutine = StartCoroutine(FadeMusic(clip));
+    }
+
+    IEnumerator FadeMusic(AudioClip newClip)
+    {
+        isFading = true;
+
+        if (musicSource.isPlaying)
+        {
+            float startVolume = musicSource.volume;
+            float timer = 0f;
+
+            while (timer < fadeOutDuration)
+            {
+                timer += Time.unscaledDeltaTime;
+                musicSource.volume = Mathf.Lerp(startVolume, 0f, timer / fadeOutDuration);
+                yield return null;
+            }
+
+            musicSource.Stop();
+            musicSource.volume = 0f;
+        }
+
+        musicSource.clip = newClip;
         musicSource.loop = true;
         musicSource.Play();
-        ApplyVolumes();
+        musicSource.time = (newClip == backgroundMusic) ? 2f : 0f;
+
+        float targetVolume = musicVolume * masterVolume;
+        float fadeTimer = 0f;
+
+        while (fadeTimer < fadeInDuration)
+        {
+            fadeTimer += Time.unscaledDeltaTime;
+            musicSource.volume = Mathf.Lerp(0f, targetVolume, fadeTimer / fadeInDuration);
+            yield return null;
+        }
+
+        musicSource.volume = targetVolume;
+        isFading = false;
     }
 
     public void PlaySFX(AudioClip clip)
@@ -93,10 +129,7 @@ public class AudioManager : MonoBehaviour
         float targetMedium = 0f;
         float targetHigh = 0f;
 
-        if (radiation < 0.2f)
-        {
-            // silence
-        }
+        if (radiation < 0.2f) { }
         else if (radiation < 0.3f)
         {
             // gradual low buildup
@@ -170,7 +203,8 @@ public class AudioManager : MonoBehaviour
 
     void ApplyVolumes()
     {
-        musicSource.volume = musicVolume * masterVolume;
+        if (!isFading)
+            musicSource.volume = musicVolume * masterVolume;
         sfxSource.volume = sfxVolume * masterVolume;
     }
 
