@@ -22,11 +22,19 @@ public class MainMenu : MonoBehaviour
 
         UpdateSliderValues();
 
+        StartCoroutine(InitSliders());
+
+        AudioManager.Instance?.PlayMusic(AudioManager.Instance.mainMenuMusic);
+    }
+
+    IEnumerator InitSliders()
+    {
+        yield return null;
+        UpdateSliderValues();
         masterSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetMasterVolume(v));
         musicSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetMusicVolume(v));
         sfxSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetSFXVolume(v));
-        radiationSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetRadiationVolume(v));
-
+        radiationSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetRadiationVolume_Slider(v));
         AudioManager.Instance?.PlayMusic(AudioManager.Instance.mainMenuMusic);
     }
 

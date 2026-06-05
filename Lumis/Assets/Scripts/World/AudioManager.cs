@@ -42,11 +42,11 @@ public class AudioManager : MonoBehaviour
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        LoadVolumeSettings();
     }
 
     void Start()
     {
-        LoadVolumeSettings();
         string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         if (currentScene == "MainMenu")
             PlayMusic(mainMenuMusic);

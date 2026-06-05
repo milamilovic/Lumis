@@ -22,10 +22,18 @@ public class PauseMenu : MonoBehaviour
 
         UpdateSliderValues();
 
+        StartCoroutine(InitSliders());
+    }
+
+    IEnumerator InitSliders()
+    {
+        yield return null;
+        UpdateSliderValues();
         masterSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetMasterVolume(v));
         musicSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetMusicVolume(v));
         sfxSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetSFXVolume(v));
         radiationSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetRadiationVolume_Slider(v));
+        AudioManager.Instance?.PlayMusic(AudioManager.Instance.mainMenuMusic);
     }
 
     void UpdateSliderValues()
