@@ -14,9 +14,12 @@ public class PlayerHealth : MonoBehaviour
     public UnityEvent OnDeath;
     public UnityEvent<float> OnHealthChanged;
 
+    private bool isDead = false;
+
     void Start()
     {
         currentHealth = maxHealth;
+        OnDeath.AddListener(() => LoseScreen.Instance?.Show());
         OnHealthChanged?.Invoke(1f);
     }
 
@@ -36,11 +39,16 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        if (isDead) return;
+
         currentHealth = Mathf.Clamp(currentHealth - amount, 0f, maxHealth);
         OnHealthChanged?.Invoke(currentHealth / maxHealth);
 
         if (currentHealth <= 0f)
+        {
+            isDead = true;
             OnDeath?.Invoke();
+        }
     }
 
     public void Heal(float amount)
