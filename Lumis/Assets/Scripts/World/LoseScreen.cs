@@ -28,22 +28,34 @@ public class LoseScreen : MonoBehaviour
 
     public void NewGame()
     {
-        StartCoroutine(NewGameCoroutine());
+        StartCoroutine(RestartCoroutine());
     }
 
-    IEnumerator NewGameCoroutine()
+    IEnumerator RestartCoroutine()
     {
         losePanel.SetActive(false);
+        AudioManager.Instance?.FadeOutMusic();
+        if (SceneFader.Instance != null)
+            yield return StartCoroutine(SceneFader.Instance.FadeOut());
+        else
+            yield return new WaitForSecondsRealtime(1.5f);
         Time.timeScale = 1f;
-
-        yield return null;
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Quit()
     {
+        StartCoroutine(FadeAndLoad("MainMenu"));
+    }
+
+    IEnumerator FadeAndLoad(string sceneName)
+    {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
+        AudioManager.Instance?.FadeOutMusic();
+        if (SceneFader.Instance != null)
+            yield return StartCoroutine(SceneFader.Instance.FadeOut());
+        else
+            yield return new WaitForSecondsRealtime(1.5f);
+        SceneManager.LoadScene(sceneName);
     }
 }

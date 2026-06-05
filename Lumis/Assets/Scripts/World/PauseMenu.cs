@@ -20,18 +20,27 @@ public class PauseMenu : MonoBehaviour
     {
         pausePanel.SetActive(false);
 
-        if (AudioManager.Instance != null)
-        {
-            masterSlider.value = AudioManager.Instance.GetMasterVolume();
-            musicSlider.value = AudioManager.Instance.GetMusicVolume();
-            sfxSlider.value = AudioManager.Instance.GetSFXVolume();
-            radiationSlider.value = AudioManager.Instance.GetRadiationVolume();
-        }
+        UpdateSliderValues();
 
         masterSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetMasterVolume(v));
         musicSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetMusicVolume(v));
         sfxSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetSFXVolume(v));
         radiationSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetRadiationVolume_Slider(v));
+    }
+
+    void UpdateSliderValues()
+    {
+        if (AudioManager.Instance == null) return;
+
+        masterSlider.onValueChanged.RemoveAllListeners();
+        musicSlider.onValueChanged.RemoveAllListeners();
+        sfxSlider.onValueChanged.RemoveAllListeners();
+        radiationSlider.onValueChanged.RemoveAllListeners();
+
+        masterSlider.value = AudioManager.Instance.GetMasterVolume();
+        musicSlider.value = AudioManager.Instance.GetMusicVolume();
+        sfxSlider.value = AudioManager.Instance.GetSFXVolume();
+        radiationSlider.value = AudioManager.Instance.GetRadiationVolume();
     }
 
     void Update()
@@ -64,14 +73,28 @@ public class PauseMenu : MonoBehaviour
 
     IEnumerator RestartCoroutine()
     {
+        AudioManager.Instance?.FadeOutMusic();
+        if (SceneFader.Instance != null)
+            yield return StartCoroutine(SceneFader.Instance.FadeOut());
+        else
+            yield return new WaitForSecondsRealtime(1.5f);
         Time.timeScale = 1f;
-        yield return null;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void QuitToMenu()
     {
+        StartCoroutine(FadeAndLoad("MainMenu"));
+    }
+
+    IEnumerator FadeAndLoad(string sceneName)
+    {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
+        AudioManager.Instance?.FadeOutMusic();
+        if (SceneFader.Instance != null)
+            yield return StartCoroutine(SceneFader.Instance.FadeOut());
+        else
+            yield return new WaitForSecondsRealtime(1.5f);
+        SceneManager.LoadScene(sceneName);
     }
 }

@@ -113,6 +113,31 @@ public class AudioManager : MonoBehaviour
         isFading = false;
     }
 
+    public void FadeOutMusic()
+    {
+        if (fadeMusicCoroutine != null)
+            StopCoroutine(fadeMusicCoroutine);
+        fadeMusicCoroutine = StartCoroutine(FadeOut());
+    }
+
+    IEnumerator FadeOut()
+    {
+        isFading = true;
+        float startVolume = musicSource.volume;
+        float timer = 0f;
+
+        while (timer < fadeOutDuration)
+        {
+            timer += Time.unscaledDeltaTime;
+            musicSource.volume = Mathf.Lerp(startVolume, 0f, timer / fadeOutDuration);
+            yield return null;
+        }
+
+        musicSource.Stop();
+        musicSource.volume = 0f;
+        isFading = false;
+    }
+
     public void PlaySFX(AudioClip clip)
     {
         if (clip == null) return;
