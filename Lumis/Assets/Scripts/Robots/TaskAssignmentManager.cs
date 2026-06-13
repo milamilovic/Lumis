@@ -3,115 +3,215 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class TaskAssignmentManager : MonoBehaviour
 {
     public static TaskAssignmentManager Instance;
 
-    [Header("Selection box UI (world space)")]
+    [Header("Tilemaps")]
+    public Tilemap groundTilemap;
+    public Tilemap dugTilemap;
+    public TileBase dugSoilTile;
+
+    [Header("Selection box")]
     public LineRenderer selectionBox;
 
-    [Header("Assignment panel UI")]
+    [Header("Assignment Panel")]
     public GameObject assignmentPanel;
     public TextMeshProUGUI robotNameLabel;
     public TextMeshProUGUI instructionLabel;
+    public Button confirmButton;
     public Button cancelButton;
 
-    public GameObject planterSeedPanel;
-    public TMP_Dropdown seedDropdown;
-    public List<string> availableSeedIds;
-    public List<GameObject> availablePlantPrefabs;
+    [Header("Seed Popup")]
+    public GameObject seedPopup;
+    public Transform seedOptionParent;
+    public GameObject seedOptionButtonPrefab;
+
+    [Header("Seed options")]
+    public List<SeedOption> allSeedOptions;
 
     private Robot selectedRobot;
     private bool isSelectingArea = false;
+    private bool isDragging = false;
     private Vector3 dragStart;
     private Vector3 dragEnd;
+    private List<Vector3Int> selectedTiles = new();
+    private SeedOption chosenSeed = null;
+
     private Camera cam;
-    private Tilemap groundTilemap;
 
     void Awake()
     {
         Instance = this;
         cam = Camera.main;
-        groundTilemap = GameObject.Find("Ground")?.GetComponent<Tilemap>();
     }
 
     void Start()
     {
         assignmentPanel.SetActive(false);
+        seedPopup.SetActive(false);
         if (selectionBox != null) selectionBox.enabled = false;
+
+        confirmButton.onClick.AddListener(OnConfirm);
         cancelButton.onClick.AddListener(CancelAssignment);
     }
 
     public void SelectRobot(Robot robot)
     {
-        if (Time.timeScale == 0f) return;
-
         selectedRobot = robot;
-        isSelectingArea = false;
+        selectedRobot.StopWandering();
+        chosenSeed = null;
+        selectedTiles.Clear();
 
+        Time.timeScale = 0f;
+
+        // Show panel
         assignmentPanel.SetActive(true);
+        seedPopup.SetActive(false);
         robotNameLabel.text = robot.definition.robotName;
-        instructionLabel.text = "Drag to select area";
+        instructionLabel.text = "Drag to select tiles";
+        confirmButton.gameObject.SetActive(false);
 
-        bool isPlanter = robot.definition.type == RobotType.Planter;
-        if (planterSeedPanel != null)
-            planterSeedPanel.SetActive(isPlanter);
+        isSelectingArea = true;
     }
 
     void Update()
     {
         if (selectedRobot == null) return;
 
-        if (Input.GetMouseButtonDown(0) && !IsPointerOverUI())
+        Vector3 worldMouse = GetWorldMousePos();
+
+        if (Mouse.current.leftButton.wasPressedThisFrame && !IsPointerOverUI())
         {
-            dragStart = GetWorldMousePos();
-            isSelectingArea = true;
+            dragStart = worldMouse;
+            isDragging = true;
+            if (selectionBox != null) selectionBox.enabled = true;
         }
 
-        if (isSelectingArea && Input.GetMouseButton(0))
+        if (isDragging && Mouse.current.leftButton.isPressed)
         {
-            dragEnd = GetWorldMousePos();
+            dragEnd = worldMouse;
+            if (selectionBox != null) selectionBox.enabled = true;
             DrawSelectionBox(dragStart, dragEnd);
         }
 
-        if (isSelectingArea && Input.GetMouseButtonUp(0))
+        if (isDragging && Mouse.current.leftButton.wasReleasedThisFrame)
         {
-            dragEnd = GetWorldMousePos();
-            if (selectionBox != null) selectionBox.enabled = false;
+            dragEnd = worldMouse;
+            isDragging = false;
 
-            var tiles = GetTilesInRect(dragStart, dragEnd);
-            AssignTaskToRobot(tiles);
-            isSelectingArea = false;
+            selectedTiles = GetTilesInRect(dragStart, dragEnd);
+            instructionLabel.text = $"{selectedTiles.Count} tiles selected";
+
+            if (selectedTiles.Count > 0)
+            {
+                if (selectedRobot.definition.type == RobotType.Planter)
+                    ShowSeedPopup();
+                else
+                    confirmButton.gameObject.SetActive(true);
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
             CancelAssignment();
     }
 
-    void AssignTaskToRobot(List<Vector3Int> tiles)
+    void ShowSeedPopup()
     {
-        if (tiles.Count == 0) return;
+        seedPopup.SetActive(true);
+        confirmButton.gameObject.SetActive(false);
 
-        if (selectedRobot.definition.type == RobotType.Planter)
+        foreach (Transform child in seedOptionParent)
+            Destroy(child.gameObject);
+
+        var inventory = FindFirstObjectByType<Inventory>();
+
+        foreach (var seed in allSeedOptions)
         {
-            int idx = seedDropdown != null ? seedDropdown.value : 0;
-            if (idx < availablePlantPrefabs.Count)
-                selectedRobot.plantPrefab = availablePlantPrefabs[idx];
-        }
+            int owned = CountInInventory(inventory, seed.seedItemId);
+            bool enough = owned >= selectedTiles.Count;
 
-        selectedRobot.AssignTiles(tiles);
-        instructionLabel.text = $"Assigned {tiles.Count} tiles";
-        assignmentPanel.SetActive(false);
-        selectedRobot = null;
+            var btn = Instantiate(seedOptionButtonPrefab, seedOptionParent);
+
+            var icon = btn.transform.Find("Icon")?.GetComponent<Image>();
+            if (icon != null && seed.icon != null) icon.sprite = seed.icon;
+
+            var label = btn.transform.Find("Label")?.GetComponent<TextMeshProUGUI>();
+            if (label != null)
+                label.text = $"{seed.displayName}\n{owned} owned / {selectedTiles.Count} needed";
+
+            var button = btn.GetComponent<Button>();
+            button.interactable = enough;
+
+            if (label != null)
+                label.color = enough ? Color.white : new Color(0.5f, 0.5f, 0.5f);
+
+            // choose on click
+            var capturedSeed = seed;
+            button.onClick.AddListener(() => ChooseSeed(capturedSeed));
+        }
     }
 
-    void CancelAssignment()
+    void ChooseSeed(SeedOption seed)
+    {
+        chosenSeed = seed;
+        seedPopup.SetActive(false);
+        instructionLabel.text = $"{selectedTiles.Count} tiles — planting {seed.displayName}";
+        confirmButton.gameObject.SetActive(true);
+    }
+
+    void OnConfirm()
+    {
+        if (selectedRobot == null || selectedTiles.Count == 0) return;
+
+        // planting robot decreases seed quantity
+        if (selectedRobot.definition.type == RobotType.Planter)
+        {
+            if (chosenSeed == null) return;
+
+            var inventory = FindFirstObjectByType<Inventory>();
+            inventory.RemoveItem(chosenSeed.seedItemId, selectedTiles.Count);
+            selectedRobot.plantPrefab = chosenSeed.plantPrefab;
+        }
+
+        selectedRobot.AssignTiles(selectedTiles);
+        ClosePanel();
+    }
+
+    public void CancelAssignment()
+    {
+        if (selectedRobot != null)
+            selectedRobot.StartWandering();
+        ClosePanel();
+    }
+
+    void ClosePanel()
     {
         selectedRobot = null;
+        selectedTiles.Clear();
+        chosenSeed = null;
+        isDragging = false;
         isSelectingArea = false;
-        assignmentPanel.SetActive(false);
+
         if (selectionBox != null) selectionBox.enabled = false;
+
+        assignmentPanel.SetActive(false);
+        seedPopup.SetActive(false);
+        if (selectionBox != null) selectionBox.enabled = false;
+
+        // Unpause
+        Time.timeScale = 1f;
+    }
+
+    int CountInInventory(Inventory inv, string itemId)
+    {
+        if (inv == null) return 0;
+        foreach (var item in inv.items)
+            if (item != null && item.id == itemId)
+                return item.quantity;
+        return 0;
     }
 
     List<Vector3Int> GetTilesInRect(Vector3 a, Vector3 b)
@@ -138,6 +238,7 @@ public class TaskAssignmentManager : MonoBehaviour
     {
         if (selectionBox == null) return;
         selectionBox.enabled = true;
+        selectionBox.useWorldSpace = true;
         selectionBox.positionCount = 5;
         selectionBox.SetPositions(new Vector3[]
         {
@@ -151,7 +252,8 @@ public class TaskAssignmentManager : MonoBehaviour
 
     Vector3 GetWorldMousePos()
     {
-        Vector3 pos = cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 screenPos = Mouse.current.position.ReadValue();
+        Vector3 pos = cam.ScreenToWorldPoint(screenPos);
         pos.z = 0f;
         return pos;
     }

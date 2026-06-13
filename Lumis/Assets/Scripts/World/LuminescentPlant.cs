@@ -196,4 +196,11 @@ public class LuminescentPlant : MonoBehaviour
         seedObj.AddComponent<SeedExpiry>().lifetime = definition.seedLifetimSeconds;
         seedObj.AddComponent<SeedBob>();
     }
+
+    public void ForceStage(int stage)
+    {
+        currentStage = stage;
+        dayAtLastGrowth = DayNightCycle.Instance != null ? DayNightCycle.Instance.currentDay : 0;
+        ApplyStage(currentStage);
+    }
 }
