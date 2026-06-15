@@ -21,6 +21,12 @@ public class LoseScreen : MonoBehaviour
 
     public void Show()
     {
+        StartCoroutine(ShowWithDelay());
+    }
+
+    IEnumerator ShowWithDelay()
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
         losePanel.SetActive(true);
         Time.timeScale = 0f;
         AudioManager.Instance?.SetRadiationVolume(0f);
@@ -35,12 +41,22 @@ public class LoseScreen : MonoBehaviour
     {
         losePanel.SetActive(false);
         AudioManager.Instance?.FadeOutMusic();
+
         if (SceneFader.Instance != null)
             yield return StartCoroutine(SceneFader.Instance.FadeOut());
         else
             yield return new WaitForSecondsRealtime(1.5f);
+
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        Debug.Log("RestartCoroutine started");
+        Debug.Log($"SaveManager.Instance: {SaveManager.Instance}");
+        Debug.Log($"HasSave: {SaveManager.Instance?.HasSave()}");
+
+        if (SaveManager.Instance != null && SaveManager.Instance.ShouldRestoreOnDeath())
+            SaveManager.Instance.LoadCheckpoint();
+        else
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Quit()

@@ -55,4 +55,11 @@ public class Inventory : MonoBehaviour
         (items[from], items[to]) = (items[to], items[from]);
         OnInventoryChanged?.Invoke();
     }
+
+    public void ClearAll()
+    {
+        for (int i = 0; i < items.Length; i++)
+            items[i] = null;
+        OnInventoryChanged?.Invoke();
+    }
 }

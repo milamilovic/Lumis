@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 867081804172298902}
   - component: {fileID: 2761621360003035288}
   - component: {fileID: 4524085459828397278}
+  - component: {fileID: 7187774479107461606}
   m_Layer: 0
   m_Name: DiggingRobot
   m_TagString: Untagged
@@ -249,3 +250,16 @@ CapsuleCollider2D:
   m_Offset: {x: 0.000000002274639, y: 0.01908106}
   m_Size: {x: 0.8600877, y: 0.8600877}
   m_Direction: 1
+--- !u!114 &7187774479107461606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7350383104866210846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844f6d7f081641e46a182955329a5d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PersistentID
+  _id: e6de6fd0-bc45-4256-9b9c-22ffb19fe7cd

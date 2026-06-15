@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,7 +20,11 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        OnDeath.AddListener(() => LoseScreen.Instance?.Show());
+        OnDeath.AddListener(() =>
+        {
+            Debug.Log("OnDeath listener fired");
+            LoseScreen.Instance?.Show();
+        });
         OnHealthChanged?.Invoke(1f);
     }
 
@@ -47,6 +52,7 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth <= 0f)
         {
             isDead = true;
+            Debug.Log("Player died, invoking OnDeath");
             OnDeath?.Invoke();
         }
     }

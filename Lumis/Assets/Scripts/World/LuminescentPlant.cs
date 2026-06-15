@@ -9,6 +9,13 @@ public class LuminescentPlant : MonoBehaviour
     private int currentStage = 0;
     private int dayAtLastGrowth = 0;
 
+    public int CurrentStage => currentStage;
+    public int DayAtLastGrowth => dayAtLastGrowth;
+
+    private bool pendingRestore = false;
+    private int pendingStage = 0;
+    private int pendingDay = 0;
+
     private SpriteRenderer sr;
     private Light2D light2D;
     private Collider2D col;
@@ -26,10 +33,16 @@ public class LuminescentPlant : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         light2D = GetComponentInChildren<Light2D>();
         col = GetComponent<Collider2D>();
-        if (col != null) col.enabled = true;
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
 
-        ApplyStage(0);
+        if (pendingRestore)
+        {
+            pendingRestore = false;
+            dayAtLastGrowth = pendingDay;
+            currentStage = pendingStage;
+        }
+
+        ApplyStage(currentStage);
 
         if (DayNightCycle.Instance != null)
             DayNightCycle.Instance.OnNewDay += OnNewDay;
@@ -202,5 +215,22 @@ public class LuminescentPlant : MonoBehaviour
         currentStage = stage;
         dayAtLastGrowth = DayNightCycle.Instance != null ? DayNightCycle.Instance.currentDay : 0;
         ApplyStage(currentStage);
+    }
+
+    public void RestoreState(int stage, int dayAtGrowth)
+    {
+        dayAtLastGrowth = dayAtGrowth;
+        currentStage = stage;
+
+        if (sr == null)
+        {
+            pendingRestore = true;
+            pendingStage = stage;
+            pendingDay = dayAtGrowth;
+        }
+        else
+        {
+            ApplyStage(currentStage);
+        }
     }
 }

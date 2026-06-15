@@ -77,6 +77,7 @@ public class PauseMenu : MonoBehaviour
     public void Restart()
     {
         StartCoroutine(RestartCoroutine());
+        CheckpointManager.Instance?.RestoreIfNeeded();
     }
 
     IEnumerator RestartCoroutine()

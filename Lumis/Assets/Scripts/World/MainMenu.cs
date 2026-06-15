@@ -81,6 +81,7 @@ public class MainMenu : MonoBehaviour
         fadeOverlay.color = c;
         yield return new WaitForSecondsRealtime(0.1f);
 
+        SaveManager.Instance?.ResetSession();
         SceneManager.LoadScene(sceneName);
     }
 

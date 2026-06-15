@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4238058191970928424}
   - component: {fileID: 2650876047209718612}
   - component: {fileID: 8012951879411533390}
+  - component: {fileID: 3344020102959952229}
   m_Layer: 0
   m_Name: PickupItem
   m_TagString: Untagged
@@ -142,3 +143,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
   itemId: galaxy
   amount: 1
+--- !u!114 &3344020102959952229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267468254090088586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844f6d7f081641e46a182955329a5d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PersistentID
+  _id: e856383c-baf6-41c2-95fa-52977d796584

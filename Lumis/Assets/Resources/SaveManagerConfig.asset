@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b87398329094c74c88c16ed295f91f9, type: 3}
+  m_Name: SaveManagerConfig
+  m_EditorClassIdentifier: Assembly-CSharp::SaveManagerConfig
+  allRobotDefinitions:
+  - {fileID: 11400000, guid: 97ec2801940db0a4ea6c5d662922a00e, type: 2}
+  - {fileID: 11400000, guid: 55e1081b8fb7fe84cb4a3f3c6af91cae, type: 2}
+  allPlantDefinitions:
+  - {fileID: 11400000, guid: 95b216d1fbccefe4ca9840b1b93c8982, type: 2}
+  - {fileID: 11400000, guid: f7716d0d693e105479b5fc8ced58b1e9, type: 2}
+  - {fileID: 11400000, guid: 4ef1a4ce0f44c1f4e88dfa6016a9f84c, type: 2}
+  - {fileID: 11400000, guid: 12912fe37a5ffe04c91ac8cb5d95eb3f, type: 2}
+  - {fileID: 11400000, guid: 33a9235a5587ec0429860a129e82d824, type: 2}
+  robotPrefabs:
+  - definitionName: DiggerRobot
+    prefab: {fileID: 7350383104866210846, guid: f0d52060cae59764e8db4f8eb0e85daa, type: 3}
+  plantPrefabs:
+  - definitionName: Plant1
+    prefab: {fileID: 3533943485913733670, guid: 3375eb1e6b374444d96f5397199f49ba, type: 3}
+  - definitionName: Plant2
+    prefab: {fileID: 3533943485913733670, guid: 821988693e653414cb3899f48038e317, type: 3}
+  - definitionName: Plant3
+    prefab: {fileID: 3533943485913733670, guid: cba25cf8191fabb458e495b928471496, type: 3}
+  - definitionName: Plant4
+    prefab: {fileID: 3533943485913733670, guid: aafb6111e7ee16b4189861f2cb4646cd, type: 3}
+  - definitionName: Plant5
+    prefab: {fileID: 3533943485913733670, guid: c138c6d5550e3fc43a51a398d9db8dc5, type: 3}

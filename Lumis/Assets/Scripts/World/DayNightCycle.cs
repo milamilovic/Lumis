@@ -16,6 +16,8 @@ public class DayNightCycle : MonoBehaviour
     private float currentTime = 0f;
     private float cycleDuration;
 
+    public float CurrentTime => currentTime;
+
     public static DayNightCycle Instance;
     void Awake() => Instance = this;
 
@@ -58,5 +60,11 @@ public class DayNightCycle : MonoBehaviour
             return nightColor;
 
         return Color.Lerp(nightColor, dayColor, (t - nightEnd) / transitionDuration);
+    }
+
+    public void SetDay(int day, float time)
+    {
+        currentDay = day;
+        currentTime = time;
     }
 }

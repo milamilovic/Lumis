@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7492739526678172918}
   - component: {fileID: 6329968329305232107}
   - component: {fileID: 5764939324697103063}
+  - component: {fileID: 7492392244575117959}
   m_Layer: 0
   m_Name: BioluminescentPlant2
   m_TagString: Untagged
@@ -188,6 +189,19 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: f7716d0d693e105479b5fc8ced58b1e9, type: 2}
   transparencyAmount: 0.5
   fadeSpeed: 5
+--- !u!114 &7492392244575117959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3533943485913733670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844f6d7f081641e46a182955329a5d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PersistentID
+  _id: 7b54b44f-279f-49b9-9b12-150005c3465d
 --- !u!1 &5326560443709710971
 GameObject:
   m_ObjectHideFlags: 0
