@@ -70,8 +70,8 @@ License: Attribution 4.0
 
 
 
-Tone12\\\_Success 
-Author: ScottyD0ES 
-ULR: https://freesound.org/s/716450/ 
+Tone12\\\_Success
+Author: ScottyD0ES
+ULR: https://freesound.org/s/716450/
 License: Attribution NonCommercial 4.0
 
