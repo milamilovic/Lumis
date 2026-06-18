@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class TransparentObject : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class TransparentObject : MonoBehaviour
 
     private float targetAlpha = 1f;
 
+    private Light2D[] childLights;
+    private float[] originalIntensities;
+    private bool[] shouldFadeLight;
+
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -17,6 +22,23 @@ public class TransparentObject : MonoBehaviour
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
             player = playerObj.transform;
+
+        childLights = GetComponentsInChildren<Light2D>(true);
+
+        originalIntensities = new float[childLights.Length];
+        shouldFadeLight = new bool[childLights.Length];
+
+        for (int i = 0; i < childLights.Length; i++)
+        {
+            originalIntensities[i] = childLights[i].intensity;
+
+            shouldFadeLight[i] = ShouldFadeLight(childLights[i]);
+        }
+    }
+
+    bool ShouldFadeLight(Light2D light)
+    {
+        return light.GetComponentInParent<LuminescentPlant>() == null;
     }
 
     void Update()
@@ -34,6 +56,27 @@ public class TransparentObject : MonoBehaviour
             player.position.y > transform.position.y
             ? 9999
             : -500;
+
+        //Lights if nto plant
+        if (childLights.Length > 1)
+        {
+            for (int i = 0; i < childLights.Length; i++)
+            {
+                if (!shouldFadeLight[i])
+                    continue;
+
+                float targetIntensity =
+                    targetAlpha < 1f
+                    ? 0.1f
+                    : originalIntensities[i];
+
+                childLights[i].intensity = Mathf.Lerp(
+                    childLights[i].intensity,
+                    targetIntensity,
+                    fadeSpeed * Time.deltaTime
+                );
+            }
+        }
     }
 
     public void SetTransparent(bool transparent)
