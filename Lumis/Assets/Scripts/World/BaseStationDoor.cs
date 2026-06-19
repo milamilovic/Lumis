@@ -107,6 +107,7 @@ public class BaseStationDoor : MonoBehaviour
             yield return new WaitForSeconds(remaining);
 
         PlayerPrefs.SetString("SpawnPoint", spawnPointId);
+        SaveManager.Instance?.CaptureSceneSnapshot();
         UnityEngine.SceneManagement.SceneManager.LoadScene(interiorSceneName);
     }
 }

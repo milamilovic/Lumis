@@ -18,6 +18,8 @@ public class GameBootstrap : MonoBehaviour
 
         StartCoroutine(DelayedMusicStart());
         StartCoroutine(FadeInScene());
+
+        SaveManager.Instance?.RestoreSceneSnapshot();
     }
 
     IEnumerator FadeInScene()

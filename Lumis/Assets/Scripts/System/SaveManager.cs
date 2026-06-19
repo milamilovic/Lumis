@@ -26,6 +26,8 @@ public class SaveManager : MonoBehaviour
 
     private SaveManagerConfig config;
 
+    private static SceneStateSnapshot liveSnapshot = new SceneStateSnapshot();
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -276,4 +278,121 @@ public class SaveManager : MonoBehaviour
     }
 
     public bool ShouldRestoreOnDeath() => HasSave() && checkpointReachedThisSession;
+
+    public void CaptureSceneSnapshot()
+    {
+        var snap = new SceneStateSnapshot();
+        snap.hasSnapshot = true;
+
+        if (DayNightCycle.Instance != null)
+        {
+            snap.currentDay = DayNightCycle.Instance.currentDay;
+            snap.currentDayTime = DayNightCycle.Instance.CurrentTime;
+        }
+
+        if (RadiationManager.Instance != null)
+        {
+            snap.radiationSeed = RadiationManager.Instance.noiseSeed;
+            snap.radiationOffsetX = RadiationManager.Instance.noiseOffsetX;
+            snap.radiationOffsetY = RadiationManager.Instance.noiseOffsetY;
+        }
+
+        var plants = FindObjectsByType<LuminescentPlant>(FindObjectsSortMode.None);
+        foreach (var plant in plants)
+        {
+            var pid = plant.GetComponent<PersistentID>();
+            if (pid == null) continue;
+            snap.plants.Add(new SavedPlant
+            {
+                persistentID = pid.ID,
+                definitionName = plant.definition != null ? plant.definition.name : "",
+                x = plant.transform.position.x,
+                y = plant.transform.position.y,
+                growthStage = plant.CurrentStage,
+                dayAtLastGrowth = plant.DayAtLastGrowth
+            });
+        }
+
+        var robots = FindObjectsByType<Robot>(FindObjectsSortMode.None);
+        foreach (var robot in robots)
+        {
+            var pid = robot.GetComponent<PersistentID>();
+            if (pid == null) continue;
+            snap.robots.Add(new SavedRobot
+            {
+                persistentID = pid.ID,
+                definitionName = robot.definition != null ? robot.definition.name : "",
+                x = robot.transform.position.x,
+                y = robot.transform.position.y
+            });
+        }
+
+        var dugTilemapObj = GameObject.Find("DugGround");
+        if (dugTilemapObj != null)
+        {
+            var tilemap = dugTilemapObj.GetComponent<UnityEngine.Tilemaps.Tilemap>();
+            var robotManager = RobotManager.Instance;
+            if (tilemap != null && robotManager != null)
+                snap.dugTiles = robotManager.GetAllDugTiles(tilemap);
+        }
+
+        liveSnapshot = snap;
+        Debug.Log($"Scene snapshot captured: {snap.plants.Count} plants, {snap.robots.Count} robots, {snap.dugTiles.Count} dug tiles");
+    }
+
+    public void RestoreSceneSnapshot()
+    {
+        if (liveSnapshot == null || !liveSnapshot.hasSnapshot)
+        {
+            Debug.Log("No scene snapshot to restore - first time entering this scene");
+            return;
+        }
+
+        var snap = liveSnapshot;
+
+        RadiationManager.Instance?.SetSeed(snap.radiationSeed, snap.radiationOffsetX, snap.radiationOffsetY);
+
+        DayNightCycle.Instance?.SetDay(snap.currentDay, snap.currentDayTime);
+
+        foreach (var p in FindObjectsByType<LuminescentPlant>(FindObjectsSortMode.None))
+            Destroy(p.gameObject);
+        foreach (var r in FindObjectsByType<Robot>(FindObjectsSortMode.None))
+            Destroy(r.gameObject);
+
+        foreach (var sp in snap.plants)
+        {
+            var def = config.allPlantDefinitions.Find(d => d.name == sp.definitionName);
+            var entry = config.plantPrefabs.Find(e => e.definitionName == sp.definitionName);
+            if (entry == null || entry.prefab == null) continue;
+
+            var obj = Instantiate(entry.prefab, new Vector3(sp.x, sp.y, 0), Quaternion.identity);
+            var plant = obj.GetComponent<LuminescentPlant>();
+            if (plant != null)
+            {
+                plant.definition = def;
+                plant.RestoreState(sp.growthStage, sp.dayAtLastGrowth);
+            }
+        }
+
+        foreach (var sr in snap.robots)
+        {
+            var def = config.allRobotDefinitions.Find(d => d.name == sr.definitionName);
+            var entry = config.robotPrefabs.Find(e => e.definitionName == sr.definitionName);
+            if (entry == null || entry.prefab == null) continue;
+
+            var obj = Instantiate(entry.prefab, new Vector3(sr.x, sr.y, 0), Quaternion.identity);
+            obj.GetComponent<Robot>()?.Initialize(def);
+        }
+
+        var dugTilemapObj = GameObject.Find("DugGround");
+        if (dugTilemapObj != null)
+        {
+            var tilemap = dugTilemapObj.GetComponent<UnityEngine.Tilemaps.Tilemap>();
+            if (tilemap != null)
+                foreach (var cell in snap.dugTiles)
+                    tilemap.SetTile(cell, RobotManager.Instance?.dugSoilTile);
+        }
+
+        Debug.Log("Scene snapshot restored");
+    }
 }
