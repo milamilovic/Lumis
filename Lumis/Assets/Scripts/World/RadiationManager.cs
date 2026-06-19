@@ -7,21 +7,36 @@ public class RadiationManager : MonoBehaviour
 
     [Header("Perlin Noise Base")]
     public float noiseScale = 0.05f;
-    public float noiseOffsetX = 100f;
-    public float noiseOffsetY = 200f;
     public float minBaseRadiation = 0.1f;
     public float maxBaseRadiation = 0.85f;
 
     [Header("Plant influence")]
     public int maxPlantsToCheck = 10;
 
+    public int noiseSeed = 0;
+    public float noiseOffsetX = 0f;
+    public float noiseOffsetY = 0f;
+
     private List<RadiationEmitter> emitters = new();
 
     void Awake()
     {
         Instance = this;
-        noiseOffsetX = Random.Range(0f, 10000f);
-        noiseOffsetY = Random.Range(0f, 10000f);
+        if (noiseSeed == 0) RandomizeSeed();
+    }
+
+    public void RandomizeSeed()
+    {
+        noiseSeed = Random.Range(0, 999999);
+        noiseOffsetX = Random.Range(0f, 9999f);
+        noiseOffsetY = Random.Range(0f, 9999f);
+    }
+
+    public void SetSeed(int seed, float offX, float offY)
+    {
+        noiseSeed = seed;
+        noiseOffsetX = offX;
+        noiseOffsetY = offY;
     }
 
     public void RegisterEmitter(RadiationEmitter e) => emitters.Add(e);
@@ -72,8 +87,8 @@ public class RadiationManager : MonoBehaviour
 
     void Update()
     {
-        var player = FindFirstObjectByType<PlayerHealth>();
+        /*var player = FindFirstObjectByType<PlayerHealth>();
         if (player != null)
-            Debug.Log($"Radiation: {GetRadiationAt(player.transform.position):F2}");
+            Debug.Log($"Radiation: {GetRadiationAt(player.transform.position):F2}");*/
     }
 }

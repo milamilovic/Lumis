@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
     [Header("Sources")]
     public AudioSource musicSource;
     public AudioSource sfxSource;
+    public AudioSource footstepsSource;
 
     [Header("Clips")]
     public AudioClip backgroundMusic;
@@ -33,6 +34,7 @@ public class AudioManager : MonoBehaviour
     float musicVolume = 1f;
     float sfxVolume = 1f;
     float radiationVolume = 0.5f;
+    float footstepsVolume = 1f;
     private float lastRadiation = 0f;
     private bool isFading = false;
     private Coroutine fadeMusicCoroutine;
@@ -47,11 +49,6 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        if (currentScene == "MainMenu")
-            PlayMusic(mainMenuMusic);
-        else
-            PlayMusic(backgroundMusic);
         InitGeigerSource(geigerLow, geigerLowClip);
         InitGeigerSource(geigerMedium, geigerMediumClip);
         InitGeigerSource(geigerHigh, geigerHighClip);
@@ -69,8 +66,12 @@ public class AudioManager : MonoBehaviour
     public void PlayMusic(AudioClip clip)
     {
         if (clip == null) return;
+        if (this == null) return;
         if (fadeMusicCoroutine != null)
-            StopCoroutine(fadeMusicCoroutine);
+        {
+            try { StopCoroutine(fadeMusicCoroutine); }
+            catch (MissingReferenceException) {}
+        }
         fadeMusicCoroutine = StartCoroutine(FadeMusic(clip));
     }
 
@@ -214,6 +215,8 @@ public class AudioManager : MonoBehaviour
 
     public void SetMusicVolume(float v) { musicVolume = v; ApplyVolumes(); SaveVolumeSettings(); }
     public void SetSFXVolume(float v) { sfxVolume = v; ApplyVolumes(); SaveVolumeSettings(); }
+
+    public void SetFootstepsVolume(float v) { footstepsVolume = v; ApplyVolumes(); SaveVolumeSettings(); }
     public void SetRadiationVolume_Slider(float v)
     {
         radiationVolume = v;
@@ -225,12 +228,14 @@ public class AudioManager : MonoBehaviour
     public float GetMusicVolume() => musicVolume;
     public float GetSFXVolume() => sfxVolume;
     public float GetRadiationVolume() => radiationVolume;
+    public float GetFootstepsVolume() => footstepsVolume;
 
     void ApplyVolumes()
     {
         if (!isFading)
             musicSource.volume = musicVolume * masterVolume;
         sfxSource.volume = sfxVolume * masterVolume;
+        footstepsSource.volume = footstepsVolume * 2 * masterVolume;
     }
 
     void SaveVolumeSettings()
@@ -239,6 +244,7 @@ public class AudioManager : MonoBehaviour
         PlayerPrefs.SetFloat("MusicVolume", musicVolume);
         PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
         PlayerPrefs.SetFloat("RadiationVolume", radiationVolume);
+        PlayerPrefs.SetFloat("FootstepsVolume", footstepsVolume);
         PlayerPrefs.Save();
     }
 
@@ -248,6 +254,7 @@ public class AudioManager : MonoBehaviour
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
         sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
         radiationVolume = PlayerPrefs.GetFloat("RadiationVolume", 0.5f);
+        footstepsVolume = PlayerPrefs.GetFloat("FootstepsVolume", 1f);
         ApplyVolumes();
     }
 }

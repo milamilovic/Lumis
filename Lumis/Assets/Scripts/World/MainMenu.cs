@@ -25,6 +25,24 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(InitSliders());
 
         AudioManager.Instance?.PlayMusic(AudioManager.Instance.mainMenuMusic);
+
+        var hotbar = GameObject.Find("HotbarPanel");
+        if (hotbar != null) hotbar.SetActive(false);
+        var health = GameObject.Find("HealthBar");
+        if (health != null) health.SetActive(false);
+
+        var player = FindFirstObjectByType<PlayerController>();
+        if (player != null)
+            player.gameObject.SetActive(false);
+
+        StartCoroutine(FadeInScene());
+    }
+
+    IEnumerator FadeInScene()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (SceneFader.Instance != null)
+            yield return StartCoroutine(SceneFader.Instance.FadeIn());
     }
 
     IEnumerator InitSliders()
@@ -61,14 +79,11 @@ public class MainMenu : MonoBehaviour
     IEnumerator FadeAndLoad(string sceneName)
     {
         AudioManager.Instance?.FadeOutMusic();
-
         float duration = AudioManager.Instance != null
             ? AudioManager.Instance.fadeOutDuration
             : 1.5f;
-
         float timer = 0f;
         Color c = fadeOverlay.color;
-
         while (timer < duration)
         {
             timer += Time.unscaledDeltaTime;
@@ -76,10 +91,18 @@ public class MainMenu : MonoBehaviour
             fadeOverlay.color = c;
             yield return null;
         }
-
         c.a = 1f;
         fadeOverlay.color = c;
         yield return new WaitForSecondsRealtime(0.1f);
+
+        SaveManager.Instance?.ClearSceneSnapshot();
+        SaveManager.Instance?.ResetSession();
+        CollectedPickupsTracker.Instance?.Clear();
+
+        var hotbar = GameObject.Find("HotbarPanel");
+        if (hotbar != null) hotbar.SetActive(true);
+        var health = GameObject.Find("HealthBar");
+        if (health != null) health.SetActive(true);
 
         SceneManager.LoadScene(sceneName);
     }

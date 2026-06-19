@@ -11,6 +11,7 @@ public class RadiationOverlay : MonoBehaviour
     private float currentRadiation;
 
     private const int TEX_SIZE = 512;
+    private PlayerHealth cachedPlayer;
 
     void Start()
     {
@@ -23,11 +24,20 @@ public class RadiationOverlay : MonoBehaviour
 
     void Update()
     {
-        if (RadiationManager.Instance != null)
+        if (cachedPlayer == null)
+            cachedPlayer = FindFirstObjectByType<PlayerHealth>();
+
+        if (cachedPlayer != null && cachedPlayer.isIndoors)
         {
-            var player = FindFirstObjectByType<PlayerHealth>();
-            if (player != null)
-                currentRadiation = RadiationManager.Instance.GetRadiationAt(player.transform.position);
+            currentRadiation = 0f;
+        }
+        else if (RadiationManager.Instance != null && cachedPlayer != null)
+        {
+            currentRadiation = RadiationManager.Instance.GetRadiationAt(cachedPlayer.transform.position);
+        }
+        else
+        {
+            currentRadiation = 0f;
         }
 
         timer += Time.deltaTime;
@@ -38,8 +48,7 @@ public class RadiationOverlay : MonoBehaviour
                 RefreshNoise();
         }
 
-        // fade overlay based on radiation
-        float targetAlpha = Mathf.InverseLerp(0.4f, 1f, currentRadiation) * 0.30f;
+        float targetAlpha = Mathf.InverseLerp(0.2f, 1f, currentRadiation) * 0.45f;
         var c = staticOverlay.color;
         c.a = Mathf.Lerp(c.a, targetAlpha, Time.deltaTime * 3f);
         staticOverlay.color = c;

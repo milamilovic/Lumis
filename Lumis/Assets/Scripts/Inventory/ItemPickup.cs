@@ -9,6 +9,17 @@ public class ItemPickup : MonoBehaviour
 
     void Start()
     {
+        var pid = GetComponent<PersistentID>();
+        if (pid != null && CollectedPickupsTracker.Instance != null)
+        {
+            // destroy if already picked up in previous game
+            if (CollectedPickupsTracker.Instance.IsCollected(pid.ID))
+            {
+                Destroy(gameObject);
+                return;
+            }
+        }
+
         sr = GetComponent<SpriteRenderer>();
         var item = ItemDatabase.Instance?.GetItem(itemId);
         if (item != null && item.icon != null && sr != null)
@@ -29,6 +40,10 @@ public class ItemPickup : MonoBehaviour
         var item = ItemDatabase.Instance?.GetItem(itemId);
         if (item == null) { Debug.LogError($"Item not found: {itemId}"); return; }
         Debug.Log($"Item found: {itemId}");
+
+        var pid = GetComponent<PersistentID>();
+        if (pid != null)
+            CollectedPickupsTracker.Instance?.MarkCollected(pid.ID);
 
         var newItem = item.Clone();
         newItem.quantity = amount;

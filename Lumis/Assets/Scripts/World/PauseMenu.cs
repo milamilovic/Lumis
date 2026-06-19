@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -76,6 +77,12 @@ public class PauseMenu : MonoBehaviour
 
     public void Restart()
     {
+        pausePanel.SetActive(false);
+        isPaused = false;
+        Time.timeScale = 1f;
+        SaveManager.Instance?.ClearSceneSnapshot();
+        SaveManager.Instance?.ResetSession();
+        CollectedPickupsTracker.Instance?.Clear();
         StartCoroutine(RestartCoroutine());
     }
 
@@ -86,8 +93,22 @@ public class PauseMenu : MonoBehaviour
             yield return StartCoroutine(SceneFader.Instance.FadeOut());
         else
             yield return new WaitForSecondsRealtime(1.5f);
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        var inventory = FindFirstObjectByType<Inventory>();
+        inventory?.ClearAll();
+        var playerHealth = FindFirstObjectByType<PlayerHealth>();
+        playerHealth?.Heal();
+        playerHealth.isIndoors = false;
+
+        var player = FindFirstObjectByType<PlayerController>();
+        if (player != null)
+        {
+            player.transform.position = Vector3.zero;
+            player.transform.localScale = Vector3.one;
+            player.FaceForward();
+        }
+
+        SceneManager.LoadScene("SampleScene");
     }
 
     public void QuitToMenu()
@@ -97,6 +118,7 @@ public class PauseMenu : MonoBehaviour
 
     IEnumerator FadeAndLoad(string sceneName)
     {
+        pausePanel.SetActive(false);
         Time.timeScale = 1f;
         AudioManager.Instance?.FadeOutMusic();
         if (SceneFader.Instance != null)

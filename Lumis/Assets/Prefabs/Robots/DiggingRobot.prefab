@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 2017016191494732504}
   - component: {fileID: 867081804172298902}
   - component: {fileID: 2761621360003035288}
+  - component: {fileID: 4524085459828397278}
+  - component: {fileID: 7187774479107461606}
   m_Layer: 0
   m_Name: DiggingRobot
   m_TagString: Untagged
@@ -159,6 +161,9 @@ MonoBehaviour:
   state: 0
   seedToPlant: 
   plantPrefab: {fileID: 0}
+  wanderRadius: 10
+  wanderWaitMin: 0
+  wanderWaitMax: 5
 --- !u!70 &867081804172298902
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -193,8 +198,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.000000012062245, y: -0.10118546}
-  m_Size: {x: 0.666667, y: 0.6195491}
+  m_Offset: {x: 0.0000000022746391, y: 0.019081058}
+  m_Size: {x: 0.8600877, y: 0.8600877}
   m_Direction: 1
 --- !u!114 &2761621360003035288
 MonoBehaviour:
@@ -208,3 +213,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0b952b23921bd54e87491df0973d54e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RobotYSort
+--- !u!70 &4524085459828397278
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7350383104866210846}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.000000002274639, y: 0.01908106}
+  m_Size: {x: 0.8600877, y: 0.8600877}
+  m_Direction: 1
+--- !u!114 &7187774479107461606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7350383104866210846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844f6d7f081641e46a182955329a5d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PersistentID
+  _id: e6de6fd0-bc45-4256-9b9c-22ffb19fe7cd

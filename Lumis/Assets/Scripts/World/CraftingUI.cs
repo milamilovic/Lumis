@@ -107,6 +107,10 @@ public class CraftingUI : MonoBehaviour
         var robot = robotObj.GetComponent<Robot>();
         robot.Initialize(selectedRecipe);
 
+        SaveManager.Instance?.SaveCheckpoint();
+        NotificationManager.Instance?.ShowNotification(
+            "Checkpoint saved!", "Robot crafted successfully.");
+
         Debug.Log($"Crafted: {selectedRecipe.robotName}");
         RefreshCraftButton();
 

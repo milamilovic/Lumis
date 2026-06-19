@@ -41,12 +41,18 @@ public class WinScreen : MonoBehaviour
     IEnumerator NewGameCoroutine()
     {
         winPanel.SetActive(false);
+        Time.timeScale = 1f;
         AudioManager.Instance?.FadeOutMusic();
+
         if (SceneFader.Instance != null)
             yield return StartCoroutine(SceneFader.Instance.FadeOut());
         else
             yield return new WaitForSecondsRealtime(1.5f);
-        Time.timeScale = 1f;
+
+        SaveManager.Instance?.ClearSceneSnapshot();
+        SaveManager.Instance?.ResetSession();
+        CollectedPickupsTracker.Instance?.Clear();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
