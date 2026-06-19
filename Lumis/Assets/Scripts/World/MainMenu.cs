@@ -25,6 +25,20 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(InitSliders());
 
         AudioManager.Instance?.PlayMusic(AudioManager.Instance.mainMenuMusic);
+
+        var hotbar = GameObject.Find("HotbarPanel");
+        if (hotbar != null) hotbar.SetActive(false);
+        var health = GameObject.Find("HealthBar");
+        if (health != null) health.SetActive(false);
+
+        StartCoroutine(FadeInScene());
+    }
+
+    IEnumerator FadeInScene()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (SceneFader.Instance != null)
+            yield return StartCoroutine(SceneFader.Instance.FadeIn());
     }
 
     IEnumerator InitSliders()
@@ -80,6 +94,11 @@ public class MainMenu : MonoBehaviour
         SaveManager.Instance?.ClearSceneSnapshot();
         SaveManager.Instance?.ResetSession();
         CollectedPickupsTracker.Instance?.Clear();
+
+        var hotbar = GameObject.Find("HotbarPanel");
+        if (hotbar != null) hotbar.SetActive(true);
+        var health = GameObject.Find("HealthBar");
+        if (health != null) health.SetActive(true);
 
         SceneManager.LoadScene(sceneName);
     }

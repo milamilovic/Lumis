@@ -18,6 +18,11 @@ public class GameBootstrap : MonoBehaviour
         StartCoroutine(DelayedMusicStart());
         StartCoroutine(FadeInScene());
 
+        var hotbar = FindIncludingInactive("HotbarPanel");
+        if (hotbar != null) hotbar.SetActive(true);
+        var health = FindIncludingInactive("HealthBar");
+        if (health != null) health.SetActive(true);
+
         SaveManager.Instance?.RestoreSceneSnapshot();
 
         // If this is a genuinely fresh start
@@ -54,5 +59,14 @@ public class GameBootstrap : MonoBehaviour
     {
         yield return null;
         AudioManager.Instance?.PlayMusic(gameMusic);
+    }
+
+    GameObject FindIncludingInactive(string name)
+    {
+        var allTransforms = Resources.FindObjectsOfTypeAll<Transform>();
+        foreach (var t in allTransforms)
+            if (t.name == name && t.gameObject.scene.isLoaded)
+                return t.gameObject;
+        return null;
     }
 }
