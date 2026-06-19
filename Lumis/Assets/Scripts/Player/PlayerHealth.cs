@@ -12,6 +12,9 @@ public class PlayerHealth : MonoBehaviour
     public float damagePerSecond = 10f;       // at radiation = 1.0
     public float safeRadiationThreshold = 0.2f; // no damage bellow
 
+    [HideInInspector] 
+    public bool isIndoors = false;
+
     public UnityEvent OnDeath;
     public UnityEvent<float> OnHealthChanged;
 
@@ -32,13 +35,23 @@ public class PlayerHealth : MonoBehaviour
     {
         if (RadiationManager.Instance == null) return;
 
-        float radiation = RadiationManager.Instance.GetRadiationAt(transform.position);
-        AudioManager.Instance?.SetRadiationVolume(radiation);
+        var player = FindFirstObjectByType<PlayerHealth>();
 
-        if (radiation > safeRadiationThreshold)
+        if (player != null && player.isIndoors)
         {
-            float damage = damagePerSecond * radiation * Time.deltaTime;
-            TakeDamage(damage);
+            float radiation = 0f; // force to zero indoors
+            AudioManager.Instance?.SetRadiationVolume(0f);
+        }
+        else if (RadiationManager.Instance != null && player != null)
+        {
+            float radiation = RadiationManager.Instance.GetRadiationAt(player.transform.position);
+            AudioManager.Instance?.SetRadiationVolume(radiation);
+
+            if (radiation > safeRadiationThreshold)
+            {
+                float damage = damagePerSecond * radiation * Time.deltaTime;
+                TakeDamage(damage);
+            }
         }
     }
 

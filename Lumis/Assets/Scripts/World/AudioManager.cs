@@ -47,11 +47,6 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        if (currentScene == "MainMenu")
-            PlayMusic(mainMenuMusic);
-        else
-            PlayMusic(backgroundMusic);
         InitGeigerSource(geigerLow, geigerLowClip);
         InitGeigerSource(geigerMedium, geigerMediumClip);
         InitGeigerSource(geigerHigh, geigerHighClip);

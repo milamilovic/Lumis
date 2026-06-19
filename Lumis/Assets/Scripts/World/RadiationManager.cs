@@ -87,8 +87,8 @@ public class RadiationManager : MonoBehaviour
 
     void Update()
     {
-        var player = FindFirstObjectByType<PlayerHealth>();
-        //if (player != null)
-          //  Debug.Log($"Radiation: {GetRadiationAt(player.transform.position):F2}");
+        /*var player = FindFirstObjectByType<PlayerHealth>();
+        if (player != null)
+            Debug.Log($"Radiation: {GetRadiationAt(player.transform.position):F2}");*/
     }
 }

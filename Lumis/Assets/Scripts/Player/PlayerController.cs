@@ -11,11 +11,35 @@ public class PlayerController : MonoBehaviour
     private Vector2 input;
     private string facingDir = "down";
 
+    [Header("Footsteps")]
+    public AudioSource footstepLoopSource;
+    public AudioClip indoorFootstepLoop;
+    public float footstepPitch = 2f;
+    public float fadeSpeed = 8f;
+
+    private PlayerHealth playerHealth;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        playerHealth = GetComponent<PlayerHealth>();
+
+        SetupFootstepSource();
+    }
+
+    void SetupFootstepSource()
+    {
+        Debug.Log($"footstepLoopSource: {footstepLoopSource}, indoorFootstepLoop: {indoorFootstepLoop}");
+        if (footstepLoopSource == null || indoorFootstepLoop == null) return;
+        footstepLoopSource.clip = indoorFootstepLoop;
+        footstepLoopSource.loop = true;
+        footstepLoopSource.pitch = footstepPitch;
+        footstepLoopSource.volume = 0f;
+        footstepLoopSource.spatialBlend = 0f;
+        footstepLoopSource.Play();
+        Debug.Log($"Footstep source playing: {footstepLoopSource.isPlaying}, clip: {footstepLoopSource.clip}");
     }
 
     void Update()
@@ -34,9 +58,22 @@ public class PlayerController : MonoBehaviour
 
         UpdateFacing();
         UpdateAnimation();
+        HandleFootsteps();
 
         // y-sort when higher on screen is drawn behind
         sr.sortingOrder = Mathf.RoundToInt(-transform.position.y * 10);
+    }
+
+    void HandleFootsteps()
+    {
+        if (footstepLoopSource == null) return;
+
+        bool isWalking = input != Vector2.zero;
+        bool isIndoors = playerHealth != null && playerHealth.isIndoors;
+        float targetVolume = (isWalking && isIndoors) ? 8f : 0f;
+
+        footstepLoopSource.volume = Mathf.MoveTowards(
+            footstepLoopSource.volume, targetVolume, fadeSpeed * Time.deltaTime);
     }
 
     void FixedUpdate()
