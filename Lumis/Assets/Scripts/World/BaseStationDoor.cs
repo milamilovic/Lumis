@@ -33,6 +33,7 @@ public class BaseStationDoor : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("BaseStationDoor OnTriggerEnter2D fired");
         if (!other.CompareTag("Player")) return;
         playerInRange = true;
         currentPlayer = other.transform;

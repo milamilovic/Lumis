@@ -64,8 +64,12 @@ public class AudioManager : MonoBehaviour
     public void PlayMusic(AudioClip clip)
     {
         if (clip == null) return;
+        if (this == null) return;
         if (fadeMusicCoroutine != null)
-            StopCoroutine(fadeMusicCoroutine);
+        {
+            try { StopCoroutine(fadeMusicCoroutine); }
+            catch (MissingReferenceException) {}
+        }
         fadeMusicCoroutine = StartCoroutine(FadeMusic(clip));
     }
 

@@ -23,6 +23,7 @@ public class BaseStationExit : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("BaseStationExit OnTriggerEnter2D fired");
         if (!other.CompareTag("Player")) return;
         playerInRange = true;
         currentPlayer = other.transform;
