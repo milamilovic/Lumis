@@ -13,10 +13,15 @@ public class IndoorZoneMarker : MonoBehaviour
         if (player != null) player.isIndoors = true;
 
         var playerController = FindFirstObjectByType<PlayerController>();
-        if (playerController != null) playerController.enabled = true;
+        if (playerController != null)
+        {
+            playerController.enabled = true;
+        }
 
         AudioManager.Instance?.PlayMusic(indoorMusic);
         AudioManager.Instance?.SetMusicVolume((float)(AudioManager.Instance?.GetMusicVolume() * 2));
+
+        AudioManager.Instance?.SetFootstepsVolume((float)(AudioManager.Instance?.GetFootstepsVolume() * 2));
 
         Debug.Log($"SceneFader.Instance before FadeInScene: {SceneFader.Instance}");
         StartCoroutine(FadeInScene());
@@ -42,6 +47,7 @@ public class IndoorZoneMarker : MonoBehaviour
     {
         var player = FindFirstObjectByType<PlayerHealth>();
         if (player != null) player.isIndoors = false;
+        var playerController = FindFirstObjectByType<PlayerController>();
         AudioManager.Instance?.SetMusicVolume((float)(AudioManager.Instance?.GetMusicVolume() / 2));
     }
 }

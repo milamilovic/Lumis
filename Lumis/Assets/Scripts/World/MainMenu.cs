@@ -31,6 +31,10 @@ public class MainMenu : MonoBehaviour
         var health = GameObject.Find("HealthBar");
         if (health != null) health.SetActive(false);
 
+        var player = FindFirstObjectByType<PlayerController>();
+        if (player != null)
+            player.gameObject.SetActive(false);
+
         StartCoroutine(FadeInScene());
     }
 

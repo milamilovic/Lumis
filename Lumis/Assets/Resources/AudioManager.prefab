@@ -53,6 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   musicSource: {fileID: 6627862898169469130}
   sfxSource: {fileID: 3373991464240099756}
+  footstepsSource: {fileID: 5451244150846411016}
   backgroundMusic: {fileID: 8300000, guid: ab298b06050abd244bc5b5fdbacfe6bb, type: 3}
   pickupSFX: {fileID: 8300000, guid: 2a1f79a3a80bf4e40ae8c039b67a3bd0, type: 3}
   mainMenuMusic: {fileID: 8300000, guid: 287593f2a030abc40a617deb426989b0, type: 3}
@@ -407,7 +408,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 2505072a2edd83241a4aa2c4d006b9e0, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0

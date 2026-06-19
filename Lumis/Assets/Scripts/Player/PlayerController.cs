@@ -66,14 +66,20 @@ public class PlayerController : MonoBehaviour
 
     void HandleFootsteps()
     {
-        if (footstepLoopSource == null) return;
+        if (footstepLoopSource == null || playerHealth == null)
+            return;
 
         bool isWalking = input != Vector2.zero;
-        bool isIndoors = playerHealth != null && playerHealth.isIndoors;
-        float targetVolume = (isWalking && isIndoors) ? 8f : 0f;
+
+        float targetVolume =
+            (isWalking && playerHealth.isIndoors)
+            ? 8f
+            : 0f;
 
         footstepLoopSource.volume = Mathf.MoveTowards(
-            footstepLoopSource.volume, targetVolume, fadeSpeed * Time.deltaTime);
+            footstepLoopSource.volume,
+            targetVolume,
+            fadeSpeed * Time.deltaTime);
     }
 
     void FixedUpdate()

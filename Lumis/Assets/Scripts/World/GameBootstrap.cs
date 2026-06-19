@@ -22,6 +22,9 @@ public class GameBootstrap : MonoBehaviour
         if (hotbar != null) hotbar.SetActive(true);
         var health = FindIncludingInactive("HealthBar");
         if (health != null) health.SetActive(true);
+        var player = FindIncludingInactive("Player");
+        if (player != null) player.SetActive(true);
+
 
         SaveManager.Instance?.RestoreSceneSnapshot();
 

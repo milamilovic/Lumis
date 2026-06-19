@@ -13,7 +13,7 @@ public class PlayerHealth : MonoBehaviour
     public float safeRadiationThreshold = 0.2f; // no damage bellow
 
     [HideInInspector] 
-    public bool isIndoors = false;
+    public bool isIndoors { get; set; } = false;
 
     public UnityEvent OnDeath;
     public UnityEvent<float> OnHealthChanged;

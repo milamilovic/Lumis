@@ -80,12 +80,9 @@ public class PauseMenu : MonoBehaviour
         pausePanel.SetActive(false);
         isPaused = false;
         Time.timeScale = 1f;
-
         SaveManager.Instance?.ClearSceneSnapshot();
         SaveManager.Instance?.ResetSession();
-
         CollectedPickupsTracker.Instance?.Clear();
-
         StartCoroutine(RestartCoroutine());
     }
 
@@ -99,15 +96,19 @@ public class PauseMenu : MonoBehaviour
 
         var inventory = FindFirstObjectByType<Inventory>();
         inventory?.ClearAll();
-
         var playerHealth = FindFirstObjectByType<PlayerHealth>();
         playerHealth?.Heal();
+        playerHealth.isIndoors = false;
 
         var player = FindFirstObjectByType<PlayerController>();
-        player.transform.position = Vector3.zero;
-        player.FaceForward();
+        if (player != null)
+        {
+            player.transform.position = Vector3.zero;
+            player.transform.localScale = Vector3.one;
+            player.FaceForward();
+        }
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("SampleScene");
     }
 
     public void QuitToMenu()
