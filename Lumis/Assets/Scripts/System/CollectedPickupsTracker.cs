@@ -23,4 +23,9 @@ public class CollectedPickupsTracker : MonoBehaviour
         collectedIDs.Clear();
         foreach (var id in ids) collectedIDs.Add(id);
     }
+
+    public void Clear()
+    {
+        collectedIDs.Clear();
+    }
 }

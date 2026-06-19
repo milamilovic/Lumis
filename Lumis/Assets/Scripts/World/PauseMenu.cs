@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -76,8 +77,16 @@ public class PauseMenu : MonoBehaviour
 
     public void Restart()
     {
+        pausePanel.SetActive(false);
+        isPaused = false;
+        Time.timeScale = 1f;
+
+        SaveManager.Instance?.ClearSceneSnapshot();
+        SaveManager.Instance?.ResetSession();
+
+        CollectedPickupsTracker.Instance?.Clear();
+
         StartCoroutine(RestartCoroutine());
-        CheckpointManager.Instance?.RestoreIfNeeded();
     }
 
     IEnumerator RestartCoroutine()
@@ -87,7 +96,17 @@ public class PauseMenu : MonoBehaviour
             yield return StartCoroutine(SceneFader.Instance.FadeOut());
         else
             yield return new WaitForSecondsRealtime(1.5f);
-        Time.timeScale = 1f;
+
+        var inventory = FindFirstObjectByType<Inventory>();
+        inventory?.ClearAll();
+
+        var playerHealth = FindFirstObjectByType<PlayerHealth>();
+        playerHealth?.Heal();
+
+        var player = FindFirstObjectByType<PlayerController>();
+        player.transform.position = Vector3.zero;
+        player.FaceForward();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -98,6 +117,7 @@ public class PauseMenu : MonoBehaviour
 
     IEnumerator FadeAndLoad(string sceneName)
     {
+        pausePanel.SetActive(false);
         Time.timeScale = 1f;
         AudioManager.Instance?.FadeOutMusic();
         if (SceneFader.Instance != null)

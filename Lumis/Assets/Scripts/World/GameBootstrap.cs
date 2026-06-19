@@ -12,7 +12,6 @@ public class GameBootstrap : MonoBehaviour
 
     void Start()
     {
-
         var playerController = FindFirstObjectByType<PlayerController>();
         if (playerController != null) playerController.enabled = true;
 
@@ -20,6 +19,22 @@ public class GameBootstrap : MonoBehaviour
         StartCoroutine(FadeInScene());
 
         SaveManager.Instance?.RestoreSceneSnapshot();
+
+        // If this is a genuinely fresh start
+        if (!SaveManager.Instance.HasActiveSnapshotOrRestore())
+        {
+            var inventory = FindFirstObjectByType<Inventory>();
+            inventory?.ClearAll();
+
+            var playerHealth = FindFirstObjectByType<PlayerHealth>();
+            playerHealth?.Heal();
+
+            if (playerController != null)
+            {
+                playerController.transform.position = Vector3.zero;
+                playerController.FaceForward();
+            }
+        }
     }
 
     IEnumerator FadeInScene()

@@ -124,4 +124,12 @@ public class PlayerController : MonoBehaviour
         sr.flipX = (facingDir == "left");
         anim.Play(state + "-" + dir);
     }
+
+    public void SetFacingDirection(string newDir)
+    {
+        facingDir = newDir;
+        UpdateAnimation();
+    }
+
+    public void FaceForward() => SetFacingDirection("down");
 }

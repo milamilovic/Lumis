@@ -70,9 +70,9 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    public void Heal(float amount)
+    public void Heal()
     {
-        currentHealth = Mathf.Clamp(currentHealth + amount, 0f, maxHealth);
-        OnHealthChanged?.Invoke(currentHealth / maxHealth);
+        currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(maxHealth);
     }
 }

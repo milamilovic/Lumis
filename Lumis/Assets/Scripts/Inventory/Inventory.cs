@@ -57,7 +57,7 @@ public class Inventory : MonoBehaviour
     }
 
     public void ClearAll()
-    {
+    { 
         for (int i = 0; i < items.Length; i++)
             items[i] = null;
         OnInventoryChanged?.Invoke();

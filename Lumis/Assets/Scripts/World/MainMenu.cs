@@ -61,14 +61,11 @@ public class MainMenu : MonoBehaviour
     IEnumerator FadeAndLoad(string sceneName)
     {
         AudioManager.Instance?.FadeOutMusic();
-
         float duration = AudioManager.Instance != null
             ? AudioManager.Instance.fadeOutDuration
             : 1.5f;
-
         float timer = 0f;
         Color c = fadeOverlay.color;
-
         while (timer < duration)
         {
             timer += Time.unscaledDeltaTime;
@@ -76,12 +73,14 @@ public class MainMenu : MonoBehaviour
             fadeOverlay.color = c;
             yield return null;
         }
-
         c.a = 1f;
         fadeOverlay.color = c;
         yield return new WaitForSecondsRealtime(0.1f);
 
+        SaveManager.Instance?.ClearSceneSnapshot();
         SaveManager.Instance?.ResetSession();
+        CollectedPickupsTracker.Instance?.Clear();
+
         SceneManager.LoadScene(sceneName);
     }
 

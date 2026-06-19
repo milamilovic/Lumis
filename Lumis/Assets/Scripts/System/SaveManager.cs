@@ -171,6 +171,8 @@ public class SaveManager : MonoBehaviour
 
     public void RestoreIfPending()
     {
+        Debug.Log($"RestoreIfPending called: {shouldRestoreOnLoad}");
+
         Debug.Log($"RestoreIfPending, shouldRestoreOnLoad={shouldRestoreOnLoad}");
         if (!shouldRestoreOnLoad) return;
         shouldRestoreOnLoad = false;
@@ -279,6 +281,12 @@ public class SaveManager : MonoBehaviour
 
     public bool ShouldRestoreOnDeath() => HasSave() && checkpointReachedThisSession;
 
+    public void ClearSceneSnapshot()
+    {
+        liveSnapshot = new SceneStateSnapshot();
+        Debug.Log("Scene snapshot cleared");
+    }
+
     public void CaptureSceneSnapshot()
     {
         var snap = new SceneStateSnapshot();
@@ -342,9 +350,11 @@ public class SaveManager : MonoBehaviour
 
     public void RestoreSceneSnapshot()
     {
+
+        Debug.Log($"RestoreSceneSnapshot called, hasSnapshot = {liveSnapshot?.hasSnapshot}");
         if (liveSnapshot == null || !liveSnapshot.hasSnapshot)
         {
-            Debug.Log("No scene snapshot to restore - first time entering this scene");
+            Debug.Log("No snapshot to restore - skipping");
             return;
         }
 
@@ -394,5 +404,10 @@ public class SaveManager : MonoBehaviour
         }
 
         Debug.Log("Scene snapshot restored");
+    }
+
+    public bool HasActiveSnapshotOrRestore()
+    {
+        return (liveSnapshot != null && liveSnapshot.hasSnapshot) || shouldRestoreOnLoad;
     }
 }

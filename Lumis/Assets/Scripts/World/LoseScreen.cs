@@ -40,6 +40,7 @@ public class LoseScreen : MonoBehaviour
     IEnumerator RestartCoroutine()
     {
         losePanel.SetActive(false);
+        Time.timeScale = 1f;
         AudioManager.Instance?.FadeOutMusic();
 
         if (SceneFader.Instance != null)
@@ -47,16 +48,18 @@ public class LoseScreen : MonoBehaviour
         else
             yield return new WaitForSecondsRealtime(1.5f);
 
-        Time.timeScale = 1f;
-
-        Debug.Log("RestartCoroutine started");
-        Debug.Log($"SaveManager.Instance: {SaveManager.Instance}");
-        Debug.Log($"HasSave: {SaveManager.Instance?.HasSave()}");
-
         if (SaveManager.Instance != null && SaveManager.Instance.ShouldRestoreOnDeath())
+        {
             SaveManager.Instance.LoadCheckpoint();
+        }
         else
+        {
+            SaveManager.Instance?.ClearSceneSnapshot();
+            SaveManager.Instance?.ResetSession();
+            CollectedPickupsTracker.Instance?.Clear();
+
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     public void Quit()
