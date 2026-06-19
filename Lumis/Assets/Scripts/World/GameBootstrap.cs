@@ -12,22 +12,20 @@ public class GameBootstrap : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("GameBootstrap.Start() running");
-        Debug.Log($"AudioManager.Instance: {AudioManager.Instance}");
-        Debug.Log($"gameMusic assigned: {gameMusic != null}");
+
+        var playerController = FindFirstObjectByType<PlayerController>();
+        if (playerController != null) playerController.enabled = true;
+
         StartCoroutine(DelayedMusicStart());
         StartCoroutine(FadeInScene());
     }
 
     IEnumerator FadeInScene()
     {
-        Debug.Log("FadeInScene starting in outdoor scene");
         yield return new WaitForSeconds(0.1f);
         if (SceneFader.Instance != null)
         {
-            Debug.Log("Calling SceneFader.FadeIn()");
             yield return StartCoroutine(SceneFader.Instance.FadeIn());
-            Debug.Log("FadeIn complete");
         }
         else
         {

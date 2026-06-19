@@ -17,7 +17,16 @@ public class NotificationManager : MonoBehaviour
     public float slideDuration = 0.4f;
     public float displayDuration = 3f;
 
-    void Awake() => Instance = this;
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Start()
     {

@@ -367,6 +367,51 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &3102892359214001344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 209245029817930366}
+  - component: {fileID: 3389024165430496712}
+  m_Layer: 0
+  m_Name: SpawnPoint_BaseExit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &209245029817930366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3102892359214001344}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.033899993, y: -0.328, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5880942414286506642}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3389024165430496712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3102892359214001344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327eac35c88d8c54c84c651c1426ba33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
+  spawnId: base_exit
 --- !u!1 &3239032623457329769
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,6 +534,7 @@ Transform:
   m_LocalScale: {x: 8, y: 8, z: 8}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 209245029817930366}
   - {fileID: 1155198377221954488}
   - {fileID: 7416196234471263598}
   - {fileID: 1054039031913697999}
@@ -823,7 +869,11 @@ MonoBehaviour:
   interiorSceneName: BaseStationInterior
   spawnPointId: base_entrance
   openingDuration: 0.4
+  pauseAfterOpen: 0.4
+  closingDuration: 0.4
   shrinkDuration: 1.5
+  doorOpenSFX: {fileID: 0}
+  doorCloseSFX: {fileID: 0}
   doorCenterPoint: {fileID: 1465517622900270702}
 --- !u!1 &4706906968941356909
 GameObject:
