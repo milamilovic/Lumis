@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3fd293302f62243996093a311fea82, type: 3}
+  m_Name: JournalEntry1
+  m_EditorClassIdentifier: Assembly-CSharp::JournalEntry
+  entryTitle: Arrival Log - Day 1
+  diskItemId: data_disk_01
+  entryText: 'Touchdown successful. Atmosphere is breathable with assist, gravity
+    0.9G. First impressions: this place is dead quiet. No wind, no insects, nothing.
+    Scanners are picking up faint bioluminescent flora near the ridge - something
+    we didn''t see in any of the satellite imagery. Command wants samples before
+    we set up the base perimeter. Spirits are high. We didn''t come all this way
+    for nothing.
+
+
+    - K. Reyes, Mission Log 001
+
+
+    P.S. password is light'
+  unlockOrder: 1
+  ambientSound: {fileID: 0}
+  isLocked: 0
+  password: 
+  passwordHint: 
