@@ -215,13 +215,7 @@ public class JournalManager : MonoBehaviour
         if (inv == null || string.IsNullOrEmpty(itemId))
             return 0;
 
-        foreach (var item in inv.items)
-        {
-            if (item != null && item.id == itemId)
-                return item.quantity;
-        }
-
-        return 0;
+        return inv.CountHiddenItem(itemId);
     }
 
     private string GetEntryKey(JournalEntry entry)

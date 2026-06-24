@@ -11,6 +11,8 @@ public class SaveData
 
     public List<string> collectedPickupIDs = new();
 
+    public List<SavedItem> hiddenInventoryItems = new();
+
     public List<SavedPlant> plants = new();
 
     public List<SavedRobot> robots = new();

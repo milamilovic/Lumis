@@ -37,7 +37,8 @@ public class ItemDatabase : MonoBehaviour
             {
                 id = kvp.Key,
                 itemName = kvp.Value.name,
-                description = kvp.Value.description
+                description = kvp.Value.description,
+                hideInUI = kvp.Key.StartsWith("data_disk_")
             };
 
             var iconEntry = iconMappings?.Find(e => e.id == kvp.Key);

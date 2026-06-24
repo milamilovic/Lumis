@@ -16,7 +16,7 @@ public class HotbarSlot : MonoBehaviour
         if (item != null && string.IsNullOrEmpty(item.id))
             item = null;
 
-        if (item == null)
+        if (item == null || item.hideInUI)
         {
             if (itemIcon != null) { itemIcon.sprite = null; itemIcon.enabled = false; }
             if (seedBagIcon != null) seedBagIcon.enabled = false;

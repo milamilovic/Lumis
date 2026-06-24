@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
     public int maxSlots = 20;
     public InventoryItem[] items;
+    public List<InventoryItem> hiddenItems = new();
     public event System.Action OnInventoryChanged;
 
     void Awake()
@@ -14,6 +16,12 @@ public class Inventory : MonoBehaviour
     public void AddItem(InventoryItem newItem)
     {
         if (newItem == null || string.IsNullOrEmpty(newItem.id)) return;
+
+        if (newItem.hideInUI)
+        {
+            AddHiddenItem(newItem);
+            return;
+        }
 
         // Try to stack first
         for (int i = 0; i < items.Length; i++)
@@ -60,6 +68,45 @@ public class Inventory : MonoBehaviour
     { 
         for (int i = 0; i < items.Length; i++)
             items[i] = null;
+        hiddenItems.Clear();
         OnInventoryChanged?.Invoke();
+    }
+
+    void AddHiddenItem(InventoryItem newItem)
+    {
+        foreach (var item in hiddenItems)
+        {
+            if (item.id == newItem.id)
+            {
+                item.quantity += newItem.quantity;
+                OnInventoryChanged?.Invoke();
+                return;
+            }
+        }
+        hiddenItems.Add(newItem);
+        OnInventoryChanged?.Invoke();
+    }
+
+    public int CountHiddenItem(string itemId)
+    {
+        foreach (var item in hiddenItems)
+            if (item.id == itemId)
+                return item.quantity;
+        return 0;
+    }
+
+    public void RemoveHiddenItem(string itemId, int amount = 1)
+    {
+        for (int i = 0; i < hiddenItems.Count; i++)
+        {
+            if (hiddenItems[i].id == itemId)
+            {
+                hiddenItems[i].quantity -= amount;
+                if (hiddenItems[i].quantity <= 0)
+                    hiddenItems.RemoveAt(i);
+                OnInventoryChanged?.Invoke();
+                return;
+            }
+        }
     }
 }

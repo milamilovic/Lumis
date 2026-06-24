@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using NUnit;
 
 public class SaveManager : MonoBehaviour
 {
@@ -111,7 +112,8 @@ public class SaveManager : MonoBehaviour
         }
 
         // Journal
-        // TODO
+        foreach (var item in inv.hiddenItems)
+            data.hiddenInventoryItems.Add(new SavedItem { id = item.id, quantity = item.quantity });
 
         // Day/time
         if (DayNightCycle.Instance != null)
@@ -266,7 +268,14 @@ public class SaveManager : MonoBehaviour
         }
 
         // Journal
-        // TODO
+        foreach (var si in data.hiddenInventoryItems)
+        {
+            var item = ItemDatabase.Instance?.GetItem(si.id);
+            if (item == null) continue;
+            var clone = item.Clone();
+            clone.quantity = si.quantity;
+            inv.AddItem(clone);
+        }
     }
 
     public void OnCheckpointReached()
@@ -347,6 +356,13 @@ public class SaveManager : MonoBehaviour
         snap.collectedPickupIDs = CollectedPickupsTracker.Instance?.GetAllCollected()
                                   ?? new List<string>();
 
+        var inv = FindFirstObjectByType<Inventory>();
+        if (inv != null)
+        {
+            foreach (var item in inv.hiddenItems)
+                snap.hiddenInventoryItems.Add(new SavedItem { id = item.id, quantity = item.quantity });
+        }
+
         liveSnapshot = snap;
         Debug.Log($"Scene snapshot captured: {snap.plants.Count} plants, {snap.robots.Count} robots, {snap.dugTiles.Count} dug tiles, {snap.collectedPickupIDs.Count} collected pickups");
     }
@@ -368,6 +384,19 @@ public class SaveManager : MonoBehaviour
         DayNightCycle.Instance?.SetDay(snap.currentDay, snap.currentDayTime);
 
         CollectedPickupsTracker.Instance?.RestoreCollected(snap.collectedPickupIDs);
+
+        var inv = FindFirstObjectByType<Inventory>();
+        if (inv != null)
+        {
+            foreach (var si in snap.hiddenInventoryItems)
+            {
+                var item = ItemDatabase.Instance?.GetItem(si.id);
+                if (item == null) continue;
+                var clone = item.Clone();
+                clone.quantity = si.quantity;
+                inv.AddItem(clone);
+            }
+        }
 
         foreach (var p in FindObjectsByType<LuminescentPlant>(FindObjectsSortMode.None))
             Destroy(p.gameObject);
