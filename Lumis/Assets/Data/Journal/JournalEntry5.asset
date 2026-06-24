@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3fd293302f62243996093a311fea82, type: 3}
+  m_Name: JournalEntry5
+  m_EditorClassIdentifier: Assembly-CSharp::JournalEntry
+  entryTitle: Final Transmission
+  diskItemId: data_disk_05
+  entryText: 'The plants do lower radiation, Mara was right. Given time, given enough
+    of them planted in the right places, this planet could heal. We just ran out
+    of time before the planet ran out of patience with us.
+
+
+    - K. Reyes, Final
+    Log'
+  unlockOrder: 5
+  ambientSound: {fileID: 0}
+  isLocked: 1
+  password: time
+  passwordHint: Check the previous log entry

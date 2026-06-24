@@ -9,7 +9,10 @@ public class PersistentID : MonoBehaviour
         get
         {
             if (string.IsNullOrEmpty(_id))
+            {
                 _id = System.Guid.NewGuid().ToString();
+                Debug.LogWarning($"{gameObject.name}: PersistentID was EMPTY, generated NEW one: {_id}");
+            }
             return _id;
         }
     }

@@ -53,6 +53,9 @@ public class BaseStationExit : MonoBehaviour
         var playerController = player.GetComponent<PlayerController>();
         if (playerController != null) playerController.enabled = false;
 
+        var playerHealth = player.GetComponent<PlayerHealth>();
+        if (playerHealth != null) playerHealth.isIndoors = false;
+
         AudioManager.Instance?.PlaySFX(doorOpenSFX);
 
         if (exitPoint != null)

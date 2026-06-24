@@ -17,4 +17,8 @@ public class SceneStateSnapshot
 
     // positions only
     public List<UnityEngine.Vector3Int> dugTiles = new();
+
+    public List<string> collectedPickupIDs = new();
+
+    public List<SavedItem> hiddenInventoryItems = new();
 }

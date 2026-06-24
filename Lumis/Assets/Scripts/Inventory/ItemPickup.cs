@@ -10,11 +10,15 @@ public class ItemPickup : MonoBehaviour
     void Start()
     {
         var pid = GetComponent<PersistentID>();
+
+        Debug.Log($"[PICKUP START] {gameObject.name}, ID={pid?.ID}, isCollected={CollectedPickupsTracker.Instance?.IsCollected(pid?.ID)}");
+
         if (pid != null && CollectedPickupsTracker.Instance != null)
         {
             // destroy if already picked up in previous game
             if (CollectedPickupsTracker.Instance.IsCollected(pid.ID))
             {
+                Debug.Log($"[PICKUP START] {gameObject.name} - ALREADY COLLECTED, destroying");
                 Destroy(gameObject);
                 return;
             }
@@ -43,7 +47,10 @@ public class ItemPickup : MonoBehaviour
 
         var pid = GetComponent<PersistentID>();
         if (pid != null)
+        {
             CollectedPickupsTracker.Instance?.MarkCollected(pid.ID);
+            Debug.Log($"[PICKUP] Marked collected: {gameObject.name}, ID={pid.ID}");
+        }
 
         var newItem = item.Clone();
         newItem.quantity = amount;

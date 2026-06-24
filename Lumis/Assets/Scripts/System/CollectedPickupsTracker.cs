@@ -20,6 +20,7 @@ public class CollectedPickupsTracker : MonoBehaviour
 
     public void RestoreCollected(List<string> ids)
     {
+        Debug.Log($"[TRACKER] RestoreCollected called with {ids.Count} IDs: {string.Join(", ", ids)}");
         collectedIDs.Clear();
         foreach (var id in ids) collectedIDs.Add(id);
     }

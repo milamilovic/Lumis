@@ -8,6 +8,7 @@ public class InventoryItem
     public string description;
     public int quantity = 1;
     public Sprite icon;
+    public bool hideInUI = false;
 
     public InventoryItem Clone()
     {
@@ -17,7 +18,8 @@ public class InventoryItem
             itemName = itemName,
             description = description,
             quantity = quantity,
-            icon = icon
+            icon = icon,
+            hideInUI = hideInUI
         };
     }
 }

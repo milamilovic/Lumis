@@ -108,6 +108,7 @@ public class BaseStationDoor : MonoBehaviour
 
         PlayerPrefs.SetString("SpawnPoint", spawnPointId);
         SaveManager.Instance?.CaptureSceneSnapshot();
+        Debug.Log("CAPTURE DONE, leaving scene");
         UnityEngine.SceneManagement.SceneManager.LoadScene(interiorSceneName);
     }
 }

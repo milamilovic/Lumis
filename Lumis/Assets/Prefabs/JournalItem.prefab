@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8012951879411533390}
   - component: {fileID: 3344020102959952229}
   m_Layer: 0
-  m_Name: PickupItem
+  m_Name: JournalItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: -1731154161
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d63b6c210b31dfb4ebceb128c58d58d6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a5808986048a4f148b591eb6f6988e94, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e54c75dfc31806440b0fc336fe7b334f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
-  itemId: galaxy
+  itemId: data_disk_01
   amount: 1
 --- !u!114 &3344020102959952229
 MonoBehaviour:
@@ -155,4 +155,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 844f6d7f081641e46a182955329a5d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PersistentID
-  _id: f451810f-3bc1-422f-8dd9-ee89dfcdedf0
+  _id: 0cc63d9a-4274-425d-9880-a9320ae7b1a9

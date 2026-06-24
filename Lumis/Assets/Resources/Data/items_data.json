@@ -56,5 +56,25 @@
   "planter_body": {
     "name": "Planting robot body",
     "description": "A body for the planting robot."
+  },
+  "data_disk_01": {
+    "name": "Data Disk - Arrival Log",
+    "description": "An old data disk. Looks important."
+  },
+  "data_disk_02": {
+    "name": "Data Disk - The Glow",
+    "description": "Encrypted. Needs a password."
+  },
+  "data_disk_03": {
+    "name": "Data Disk - Radiation Poisoning",
+    "description": "Encrypted. Needs a password."
+  },
+  "data_disk_04": {
+    "name": "Unsigned entry",
+    "description": "Encrypted. Needs a password."
+  },
+  "data_disk_05": {
+    "name": "Final transimission",
+    "description": "Encrypted. Needs a password."
   }
 }

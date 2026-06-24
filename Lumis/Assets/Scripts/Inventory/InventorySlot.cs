@@ -32,7 +32,7 @@ public class InventorySlot : MonoBehaviour,
         item = newItem;
         slotIndex = index;
 
-        if (item == null)
+        if (item == null || item.hideInUI)
         {
             if (itemIcon != null) { itemIcon.sprite = null; itemIcon.enabled = false; }
             if (seedBagIcon != null) seedBagIcon.enabled = false;
