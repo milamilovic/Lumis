@@ -344,8 +344,11 @@ public class SaveManager : MonoBehaviour
                 snap.dugTiles = robotManager.GetAllDugTiles(tilemap);
         }
 
+        snap.collectedPickupIDs = CollectedPickupsTracker.Instance?.GetAllCollected()
+                                  ?? new List<string>();
+
         liveSnapshot = snap;
-        Debug.Log($"Scene snapshot captured: {snap.plants.Count} plants, {snap.robots.Count} robots, {snap.dugTiles.Count} dug tiles");
+        Debug.Log($"Scene snapshot captured: {snap.plants.Count} plants, {snap.robots.Count} robots, {snap.dugTiles.Count} dug tiles, {snap.collectedPickupIDs.Count} collected pickups");
     }
 
     public void RestoreSceneSnapshot()
@@ -363,6 +366,8 @@ public class SaveManager : MonoBehaviour
         RadiationManager.Instance?.SetSeed(snap.radiationSeed, snap.radiationOffsetX, snap.radiationOffsetY);
 
         DayNightCycle.Instance?.SetDay(snap.currentDay, snap.currentDayTime);
+
+        CollectedPickupsTracker.Instance?.RestoreCollected(snap.collectedPickupIDs);
 
         foreach (var p in FindObjectsByType<LuminescentPlant>(FindObjectsSortMode.None))
             Destroy(p.gameObject);
@@ -409,5 +414,14 @@ public class SaveManager : MonoBehaviour
     public bool HasActiveSnapshotOrRestore()
     {
         return (liveSnapshot != null && liveSnapshot.hasSnapshot) || shouldRestoreOnLoad;
+    }
+
+    public void RestoreCollectedPickupsEarly()
+    {
+        if (liveSnapshot != null && liveSnapshot.hasSnapshot)
+        {
+            CollectedPickupsTracker.Instance?.RestoreCollected(liveSnapshot.collectedPickupIDs);
+            Debug.Log($"[EARLY] Restored {liveSnapshot.collectedPickupIDs.Count} collected pickups in Awake");
+        }
     }
 }

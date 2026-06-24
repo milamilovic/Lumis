@@ -7,6 +7,8 @@ public class GameBootstrap : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("=== GameBootstrap AWAKE ===");
+        SaveManager.Instance?.RestoreCollectedPickupsEarly();
         SaveManager.Instance?.RestoreIfPending();
     }
 
@@ -25,18 +27,17 @@ public class GameBootstrap : MonoBehaviour
         var player = FindIncludingInactive("Player");
         if (player != null) player.SetActive(true);
 
+        bool wasReturningFromSnapshot = SaveManager.Instance != null
+            && SaveManager.Instance.HasActiveSnapshotOrRestore();
 
         SaveManager.Instance?.RestoreSceneSnapshot();
 
-        // If this is a genuinely fresh start
-        if (!SaveManager.Instance.HasActiveSnapshotOrRestore())
+        if (!wasReturningFromSnapshot)
         {
             var inventory = FindFirstObjectByType<Inventory>();
             inventory?.ClearAll();
-
             var playerHealth = FindFirstObjectByType<PlayerHealth>();
             playerHealth?.Heal();
-
             if (playerController != null)
             {
                 playerController.transform.position = Vector3.zero;
