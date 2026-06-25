@@ -6,6 +6,9 @@ public class LuminescentPlant : MonoBehaviour
     [Header("Plant type")]
     public PlantDefinition definition;
 
+    [Header("Starting stage")]
+    public int startingStage = 0;
+
     private int currentStage = 0;
     private int dayAtLastGrowth = 0;
 
@@ -40,6 +43,12 @@ public class LuminescentPlant : MonoBehaviour
             pendingRestore = false;
             dayAtLastGrowth = pendingDay;
             currentStage = pendingStage;
+        }
+        else
+        {
+            currentStage = Mathf.Clamp(startingStage, 0,
+                definition != null ? definition.stages.Length - 1 : 0);
+            dayAtLastGrowth = DayNightCycle.Instance != null ? DayNightCycle.Instance.currentDay : 0;
         }
 
         ApplyStage(currentStage);

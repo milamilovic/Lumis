@@ -16,7 +16,7 @@ public class ItemPickup : MonoBehaviour
         if (pid != null && CollectedPickupsTracker.Instance != null)
         {
             // destroy if already picked up in previous game
-            if (CollectedPickupsTracker.Instance.IsCollected(pid.ID))
+            if (CollectedPickupsTracker.Instance.IsCollected(pid.ID) || CollectedPickupsTracker.Instance.IsCollectedHidden(pid.ID))
             {
                 Debug.Log($"[PICKUP START] {gameObject.name} - ALREADY COLLECTED, destroying");
                 Destroy(gameObject);

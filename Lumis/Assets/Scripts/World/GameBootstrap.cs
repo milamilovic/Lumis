@@ -7,8 +7,8 @@ public class GameBootstrap : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("=== GameBootstrap AWAKE ===");
         SaveManager.Instance?.RestoreCollectedPickupsEarly();
+        SaveManager.Instance?.RestoreCollectedPickupsEarlyFromCheckpoint();
         SaveManager.Instance?.RestoreIfPending();
     }
 
