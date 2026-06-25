@@ -52,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 9a8d8ecf17c12844db1004f6a7893e0e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -93,7 +93,7 @@ Material:
     - _SpecularSpeed: 0.3
     - _SpecularThreshold: -0.84
     m_Colors:
-    - _CausticColour: {r: 0.7164802, g: 0.21430397, b: 0.89433956, a: 0.12156863}
+    - _CausticColour: {r: 0.26056772, g: 0.14793159, b: 0.2981131, a: 0.48235294}
     - _CausticHighlightColour: {r: 1, g: 1, b: 1, a: 0.36862746}
     - _CurrentWorldTexturePos: {r: -48, g: 3792, b: 0, a: 0}
     - _FoamColour: {r: 1, g: 1, b: 1, a: 1}
