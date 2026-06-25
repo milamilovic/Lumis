@@ -453,4 +453,15 @@ public class SaveManager : MonoBehaviour
             Debug.Log($"[EARLY] Restored {liveSnapshot.collectedPickupIDs.Count} collected pickups in Awake");
         }
     }
+
+    public void RestoreCollectedPickupsEarlyFromCheckpoint()
+    {
+        if (!shouldRestoreOnLoad) return;
+        if (!HasSave()) return;
+
+        string json = System.IO.File.ReadAllText(SavePath);
+        var data = JsonUtility.FromJson<SaveData>(json);
+        CollectedPickupsTracker.Instance?.RestoreCollected(data.collectedPickupIDs);
+        Debug.Log($"[EARLY-CHECKPOINT] Restored {data.collectedPickupIDs.Count} collected pickups in Awake");
+    }
 }
