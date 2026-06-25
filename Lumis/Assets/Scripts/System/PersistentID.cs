@@ -18,6 +18,15 @@ public class PersistentID : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+    [ContextMenu("Generate New ID")]
+    void GenerateNewID()
+    {
+        _id = System.Guid.NewGuid().ToString();
+        UnityEditor.EditorUtility.SetDirty(this);
+        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
+        Debug.Log($"{gameObject.name}: Generated new ID = {_id}");
+    }
+
     void OnValidate()
     {
         if (string.IsNullOrEmpty(_id))
