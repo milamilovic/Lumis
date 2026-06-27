@@ -2,9 +2,6 @@
 
 A 2D pixelated game about an astronaut stranded on a radioactive planet, who must find a way to survive using glowing plants that naturally reduce radiation in their surroundings. The player collects parts and assembles robots that automate tasks like digging soil and planting seeds, while exploring an abandoned base from a previous mission to uncover what really happened.
 
-## Video
-TODO
-
 ## Screenshots
 
 <table>
@@ -108,20 +105,9 @@ TODO
   </tr>
 </table>
 
+## Video
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+https://github.com/user-attachments/assets/2696727c-ac42-4493-9271-ffb7fa6781dd
 
 
 ## Credits
